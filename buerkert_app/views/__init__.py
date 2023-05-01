@@ -1,1 +1,0 @@
-from buerkert_app.dashes.batch_dash import app
