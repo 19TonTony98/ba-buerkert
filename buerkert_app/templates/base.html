@@ -4,35 +4,45 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="de">
+<link rel="stylesheet" type="text/css" href="{% static 'buerkert_app/css/main.css' %}">
 <head>
     <meta charset="UTF-8">
     <title>Bürkert</title>
 </head>
 <body>
 {% block navbar %}
-    <nav class="navbar navbar-expand-lg fixed-top bg-light">
+    <nav class="navbar navbar-expand-lg fixed-top">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">
-        <img src="{% static 'buerkert_app/img/android-chrome-192x192.png' %}" alt="HSWT" height="40">HSWT
+        <img src="{% static 'buerkert_app/img/hswt-logo.png' %}" alt="HSWT" height="45">
+        <div class="vr"></div>
+        <img src="{% static 'buerkert_app/img/buerkert-logo.svg' %}" height="30" alt="buerkert">
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+<!-- menu
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="#">Home</a>
         </li>
+-->
       </ul>
       <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Batch-ID" aria-label="Batch-ID" name="batch">
+        <input class="form-control me-2" type="search" placeholder="Batch-ID" aria-label="Batch-ID" name="batch_id">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
     </div>
   </div>
 </nav>
 {% endblock %}
-{% block content %}
-{% endblock %}
+<div class="p-4"></div>
+<div class="px-1 pt-4">
+    {% block content %}
+    {% endblock %}
+</div>
+
 </body>
 </html>

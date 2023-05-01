@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% load plotly_dash %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            <h5 class="title">Batch-ID: {{ batch_id }}</h5>
+        </div>
+        <div class="card-body" id="body">
+            {% plotly_header %}
+            {% plotly_direct name="SimpleExample" %}
+            {% plotly_footer %}
+        </div>
+    </div>
+{% endblock %}
