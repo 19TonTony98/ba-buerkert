@@ -6,8 +6,8 @@ from buerkert_app.dashes.batch_dash import BatchDash
 
 
 class BatchView(View):
-    token = "LaQHo-7QN-pSfqHvgr7_4cDtnJHYl_zIXfAsO7j8RgjFLqw30jZnSMe_luq5yyCj4iWz8r3NQ6Ezs6ZxSv_bdg=="
-    org = "41110e2dd2c8d5fe"
+    token = "hDobQ3-fzXSY2FxGqz2iZBsFjKcZE6q9NN1Z6m2eszwZj77LFkpYb4EPDDUG6GbBgGS9TkbuH_vhmmEFXG9LbQ=="
+    org = "HSWT"
     client = InfluxDBClient(url="http://localhost:8086", token=token, org=org)
     query_api = client.query_api()
 

@@ -110,3 +110,34 @@
 .navbar {
     background-color: var(--color-background-secondary-muted);
 }
+
+#batch_table button.export {
+    display: none;
+}
+
+#batch_table div.previous-next-container {
+    display: none;
+}
+
+.btn-primary {
+    background-color: var(--color-background-primary-strong);
+    border-color: var(--color-background-primary-strong);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-background-primary-muted);
+    border-color: var(--color-background-primary-muted);
+}
+
+.page-link {
+    color: var(--color-background-primary-strong);
+}
+
+.page-link:hover {
+    color: var(--color-background-primary-muted);
+}
+
+.page-item.active .page-link{
+    background-color: var(--color-background-primary-strong);
+    border-color: var(--color-background-primary-strong);
+}
