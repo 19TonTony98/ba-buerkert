@@ -86,6 +86,11 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+    },
+    'influx': {
+        "url": "http://localhost:8086",
+        "org": "HSWT",
+        "token": "hDobQ3-fzXSY2FxGqz2iZBsFjKcZE6q9NN1Z6m2eszwZj77LFkpYb4EPDDUG6GbBgGS9TkbuH_vhmmEFXG9LbQ==",
     }
 }
 

@@ -13,7 +13,7 @@
 {% block navbar %}
     <nav class="navbar navbar-expand-lg fixed-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="{% url 'index' %}">
         <img src="{% static 'buerkert_app/img/hswt-logo.png' %}" alt="HSWT" height="45">
         <div class="vr"></div>
         <img src="{% static 'buerkert_app/img/buerkert-logo.svg' %}" height="30" alt="buerkert">
@@ -30,7 +30,7 @@
         </li>
 -->
       </ul>
-      <form class="d-flex" role="search">
+      <form class="d-flex" role="search" action="{% url 'index' %}">
         <input class="form-control me-2" type="search" placeholder="Batch-ID" aria-label="Batch-ID" name="batch_id">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
@@ -40,6 +40,7 @@
 {% endblock %}
 <div class="p-4"></div>
 <div class="px-1 pt-4">
+    {% bootstrap_messages %}
     {% block content %}
     {% endblock %}
 </div>

@@ -5,5 +5,5 @@ from buerkert_app.views.index import Index
 
 urlpatterns = [
     path("", Index.as_view(), name="index"),
-    re_path(r"batch/(?P<batch_id>\d+)", BatchView.as_view(), name='batch')
+    re_path(r"batch/(?P<batch_id>\w+)", BatchView.as_view(), name='batch')
 ]
