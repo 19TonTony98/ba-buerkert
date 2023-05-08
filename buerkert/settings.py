@@ -90,7 +90,7 @@ DATABASES = {
     'influx': {
         "url": "http://localhost:8086",
         "org": "HSWT",
-        "token": "hDobQ3-fzXSY2FxGqz2iZBsFjKcZE6q9NN1Z6m2eszwZj77LFkpYb4EPDDUG6GbBgGS9TkbuH_vhmmEFXG9LbQ==",
+        "token": "CIbBbk_ieqUBULicnl0nUkO7VzAL-u33lDkBIOtT9XNURvANZHUO9vzLHSSrpEc7SbfIJ2dzN_qCKB9C10hGhA==",
     }
 }
 
