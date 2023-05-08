@@ -111,6 +111,16 @@
     background-color: var(--color-background-secondary-muted);
 }
 
+.navbar a.active{
+    color: var(--color-text-inverse);
+    background-color: var(--color-link-active);
+}
+
+.navbar a:hover{
+    color: var(--color-text-inverse);
+    background-color: var(--color-link-hover);
+}
+
 #batch_table button.export {
     display: none;
 }

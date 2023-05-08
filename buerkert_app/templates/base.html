@@ -2,6 +2,7 @@
 {% bootstrap_css %}
 {% bootstrap_javascript %}
 {% load static %}
+{% url 'live' as live_url %}
 <!DOCTYPE html>
 <html lang="de">
 <link rel="stylesheet" type="text/css" href="{% static 'buerkert_app/css/main.css' %}">
@@ -22,13 +23,11 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
+    <div class="vr"></div>
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-<!-- menu
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link mx-2 {% if request.path == live_url %}active{% endif %}" href="{% url 'live' %}">Live</a>
         </li>
--->
       </ul>
       <form class="d-flex" role="search" action="{% url 'index' %}">
         <input class="form-control me-2" type="search" placeholder="Batch-ID" aria-label="Batch-ID" name="batch_id">
