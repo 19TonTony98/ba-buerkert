@@ -1,4 +1,8 @@
- <ul>
+{% load django_bootstrap5 %}
+{% for message in opc_messages %}
+    {% bootstrap_alert message alert_type='danger' %}
+{% endfor %}
+<ul>
      {% for value in values %}
      <li>{{ value |floatformat:-2 }}</li>
      {% endfor %}

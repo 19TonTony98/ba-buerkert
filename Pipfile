@@ -12,6 +12,7 @@ dpd-static-support = "*"
 whitenoise = "*"
 dash-bootstrap-components = "*"
 asyncua = "*"
+django-htmx = "*"
 
 [dev-packages]
 

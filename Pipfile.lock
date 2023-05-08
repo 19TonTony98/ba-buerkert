@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "97da25135ddfb5dcc1987cab53359ffead921c3f8df3ddc13eec0297d0362040"
+            "sha256": "aca6df1e3d102770edff18b9a61b95faa1cd267d21a5bc2aba29a6c8f83f9f9a"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -235,6 +235,14 @@
             ],
             "index": "pypi",
             "version": "==23.1"
+        },
+        "django-htmx": {
+            "hashes": [
+                "sha256:393e2a4a963aff691b3973c898dbca1363139d7c7bf2e8cc4c605e2ad808a779",
+                "sha256:b689a8d6f7052a96a373411ec55ba81c1ddffb4d66b1f5ab4d6e3d28420842fd"
+            ],
+            "index": "pypi",
+            "version": "==1.14.0"
         },
         "django-plotly-dash": {
             "hashes": [
