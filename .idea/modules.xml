@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/ba-buerkert.iml" filepath="$PROJECT_DIR$/.idea/ba-buerkert.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../ssh/.idea/ssh.iml" filepath="$PROJECT_DIR$/../ssh/.idea/ssh.iml" />
     </modules>
   </component>
 </project>

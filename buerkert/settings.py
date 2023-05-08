@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django_bootstrap5',
     'django_plotly_dash.apps.DjangoPlotlyDashConfig',
     'dpd_static_support',
+    "django_htmx",
 ]
 
 MIDDLEWARE = [
@@ -54,6 +55,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_plotly_dash.middleware.BaseMiddleware',
     'django_plotly_dash.middleware.ExternalRedirectionMiddleware',
+    "django_htmx.middleware.HtmxMiddleware",
 ]
 
 ROOT_URLCONF = 'buerkert.urls'

@@ -11,6 +11,7 @@ django-bootstrap5 = "*"
 dpd-static-support = "*"
 whitenoise = "*"
 dash-bootstrap-components = "*"
+asyncua = "*"
 
 [dev-packages]
 
