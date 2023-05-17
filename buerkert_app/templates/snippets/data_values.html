@@ -3,7 +3,7 @@
     {% bootstrap_alert message alert_type='danger' %}
 {% endfor %}
 <ul>
-     {% for value in values %}
-     <li>{{ value |floatformat:-2 }}</li>
+     {% for key, value in values.items %}
+     <li>{{ key }}: {{ value |floatformat:-2 }}</li>
      {% endfor %}
 </ul>

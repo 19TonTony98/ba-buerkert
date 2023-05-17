@@ -3,6 +3,7 @@
 {% bootstrap_javascript %}
 {% load static %}
 {% url 'live' as live_url %}
+{% url 'start' as start_url %}
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -28,6 +29,9 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a class="nav-link mx-2 {% if request.path == live_url %}active{% endif %}" href="{% url 'live' %}">Live</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link mx-2 {% if request.path == start_url %}active{% endif %}" href="{% url 'start' %}">Start</a>
         </li>
       </ul>
       <form class="d-flex" role="search" action="{% url 'index' %}">
