@@ -1,10 +1,10 @@
-{
-  "I1": "MyVariable1",
-  "I2": "MyVariable2",
-  "I3": "MyVariable3",
-  "A1": "MyVariable4",
-  "A2": "MyVariable5",
-  "A3": "MyVariable6",
-  "O1": "MyVariable7",
-  "O2": "MyVariable8"
-}
+[
+{"sps_port": "I1", "object": "MyObject", "identifier": "MyVariable1"},
+{"sps_port": "I2", "object": "MyObject", "identifier": "MyVariable2"},
+{"sps_port": "I3", "object": "MyObject", "identifier": "MyVariable3"},
+{"sps_port": "A1", "object": "MyObject", "identifier": "MyVariable4"},
+{"sps_port": "A2", "object": "MyObject", "identifier": "MyVariable5"},
+{"sps_port": "A3", "object": "MyObject", "identifier": "MyVariable6"},
+{"sps_port": "O1", "object": "MyObject", "identifier": "MyVariable7"},
+{"sps_port": "O2", "object": "MyObject", "identifier": "MyVariable8"}
+]

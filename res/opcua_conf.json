@@ -1,19 +1,51 @@
 {
-  "url": "opc.tcp://localhost:4840/freeopcua/server/",
-  "namespace": "http://dummy.buerkert.opcua.by",
-  "objects": [{
-    "object": "MyObject",
-    "display": "MyObject",
-    "variables": [
-      {"identifier": "MyVariable1", "display": "MyVariable1", "measurement": "temp"},
-      {"identifier": "MyVariable2", "display": "MyVariable2", "measurement": "temp"},
-      {"identifier": "MyVariable3", "display": "MyVariable3", "measurement": "temp"},
-      {"identifier": "MyVariable4", "display": "MyVariable4", "measurement": "temp"},
-      {"identifier": "MyVariable5", "display": "MyVariable5", "measurement": "temp"},
-      {"identifier": "MyVariable6", "display": "MyVariable6", "measurement": "temp"},
-      {"identifier": "MyVariable7", "display": "MyVariable7", "measurement": "temp"},
-      {"identifier": "MyVariable8", "display": "MyVariable8", "measurement": "temp"}
-    ]
+ "url": "opc.tcp://localhost:4840/freeopcua/server/",
+ "namespace": "http://dummy.buerkert.opcua.by",
+ "objects": [
+  {
+   "object": "MyObject",
+   "variables": [
+    {
+     "display": "MyVariable1",
+     "measurement": "temp",
+     "identifier": "MyVariable1"
+    },
+    {
+     "display": "MyVariable2",
+     "measurement": "temp",
+     "identifier": "MyVariable2"
+    },
+    {
+     "display": "MyVariable3",
+     "measurement": "temp",
+     "identifier": "MyVariable3"
+    },
+    {
+     "display": "MyVariable4",
+     "measurement": "temp",
+     "identifier": "MyVariable4"
+    },
+    {
+     "display": "MyVariable5",
+     "measurement": "temp",
+     "identifier": "MyVariable5"
+    },
+    {
+     "display": "MyVariable6",
+     "measurement": "temp",
+     "identifier": "MyVariable6"
+    },
+    {
+     "display": "MyVariable7",
+     "measurement": "temp",
+     "identifier": "MyVariable7"
+    },
+    {
+     "display": "MyVariable8",
+     "measurement": "temp",
+     "identifier": "MyVariable8"
+    }
+   ]
   }
-  ]
+ ]
 }

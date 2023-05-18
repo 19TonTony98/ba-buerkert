@@ -1,9 +1,7 @@
 from django import forms
 from django.contrib import messages
 from django.forms import formset_factory
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.template import Template, Context
 from django.views import View
 
 from buerkert_app.helpers import create_telegraf_conf, start_telegraf, get_conf_list, set_opcua_conf
@@ -21,7 +19,6 @@ class StartView(View):
         if request.GET.get("settings") == "save":
             formset = ConfFormSet(request.POST)
             if formset.is_valid():
-                #ToDo save file
                 set_opcua_conf(formset.cleaned_data)
                 messages.success(request, "Einstellungen gespeichert")
                 return self.get(request)
@@ -59,7 +56,7 @@ class BatchForm(forms.Form):
 class ConfForm(forms.Form):
     # ToDo ChoiceFiel for given sps port
     sps_port = forms.CharField(label="SPS I/O PORT")
-    display_name = forms.CharField(label="Anzeige Name")
+    display = forms.CharField(label="Anzeige Name")
     measurement = forms.CharField(label="Einheit")
 
 
