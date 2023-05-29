@@ -10,37 +10,24 @@
             <form method="post">{% csrf_token %}
                 {% bootstrap_form form %}
                 {% bootstrap_button "Start" %}
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#spsModal">
-                  SPS Settings
-                </button>
-            </form>
-    </div>
-</div>
 
-<div class="modal fade" id="spsModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="spsModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="spsModalLabel">SPS Settings</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-        <form action="{% url 'start' %}?settings=save" method="POST"> {% csrf_token %}
-          <div class="modal-body" id="modal-body">
-                {{ formset.management_form }}
-                {% for form in formset %}
-                    {{ form.as_table }}
-                    <br>
-                {% endfor %}
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-primary" hx-post="{% url 'start' %}" hx-target="#modal-body" hx-swap="innerHTML">
-                Add/Delete Field
-            </button>
-            <button type="submit" class="btn btn-primary">Save changes</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          </div>
-        </form>
+                <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
+                        aria-expanded="false" aria-controls="collapseExample">
+                    SPS Einstellungen
+                </button>
+
+                <div class="collapse" id="collapseExample">
+                  <div class="card card-body">
+                    {{ formset.management_form }}
+                    {% for form in formset %}
+                        {% bootstrap_form form %}
+                    {% endfor %}
+                  <button class="btn btn-primary" formaction="{% url 'start' %}?settings=save">Save</button>
+                  </div>
+                </div>
+            </form>
+        </div>
     </div>
-  </div>
-</div>
+
 {% endblock %}
+

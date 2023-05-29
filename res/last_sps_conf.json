@@ -1,0 +1,50 @@
+[
+ {
+  "use": true,
+  "sps_port": "I1",
+  "display": "VAR1",
+  "measurement": "Temperatur"
+ },
+ {
+  "use": true,
+  "sps_port": "I2",
+  "display": "VAR2",
+  "measurement": "Temperatur"
+ },
+ {
+  "use": true,
+  "sps_port": "I3",
+  "display": "VAR3",
+  "measurement": "Druck"
+ },
+ {
+  "use": false,
+  "sps_port": "A1",
+  "display": "VAR4",
+  "measurement": "Temperatur"
+ },
+ {
+  "use": false,
+  "sps_port": "A2",
+  "display": "VAR5",
+  "measurement": "Temperatur"
+ },
+ {
+  "use": false,
+  "sps_port": "A3",
+  "display": "VAR6",
+  "measurement": "Druck"
+ },
+ {
+  "use": true,
+  "sps_port": "O1",
+  "display": "VAR7",
+  "measurement": "Druck"
+ },
+ {
+  "use": true,
+  "sps_port": "O2",
+  "display": "VAR8",
+  "measurement": "Druck"
+ }
+]

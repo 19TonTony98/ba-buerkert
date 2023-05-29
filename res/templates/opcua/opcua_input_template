@@ -1,0 +1,3 @@
+[[inputs.opcua]]
+    name = "opcua"
+{GROUPS}

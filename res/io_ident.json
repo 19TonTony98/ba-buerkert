@@ -1,10 +1,10 @@
 [
-{"sps_port": "I1", "object": "MyObject", "identifier": "MyVariable1"},
-{"sps_port": "I2", "object": "MyObject", "identifier": "MyVariable2"},
-{"sps_port": "I3", "object": "MyObject", "identifier": "MyVariable3"},
-{"sps_port": "A1", "object": "MyObject", "identifier": "MyVariable4"},
-{"sps_port": "A2", "object": "MyObject", "identifier": "MyVariable5"},
-{"sps_port": "A3", "object": "MyObject", "identifier": "MyVariable6"},
-{"sps_port": "O1", "object": "MyObject", "identifier": "MyVariable7"},
-{"sps_port": "O2", "object": "MyObject", "identifier": "MyVariable8"}
+{"sps_port": "I1", "node_name": "MyObject", "variable_name": "MyVariable1", "namespace_index": 2, "identifier": 3},
+{"sps_port": "I2", "node_name": "MyObject", "variable_name": "MyVariable2", "namespace_index": 2, "identifier": 4},
+{"sps_port": "I3", "node_name": "MyObject", "variable_name": "MyVariable3", "namespace_index": 2, "identifier": 5},
+{"sps_port": "A1", "node_name": "MyObject", "variable_name": "MyVariable4", "namespace_index": 2, "identifier": 6},
+{"sps_port": "A2", "node_name": "MyObject", "variable_name": "MyVariable5", "namespace_index": 2, "identifier": 7},
+{"sps_port": "A3", "node_name": "MyObject2", "variable_name": "MyVariable-1", "namespace_index": 3, "identifier": 2},
+{"sps_port": "O1", "node_name": "MyObject2", "variable_name": "MyVariable-2", "namespace_index": 3, "identifier": 3},
+{"sps_port": "O2", "node_name": "MyObject2", "variable_name": "MyVariable-3", "namespace_index": 3, "identifier": 4}
 ]
