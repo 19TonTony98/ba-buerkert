@@ -3,6 +3,7 @@ import json
 import os
 
 from asyncua import Client
+import docker
 
 from buerkert import settings
 
@@ -109,13 +110,21 @@ def create_telegraf_conf(batch_dict, sps_list):
                 node_str += ("\n" + node_tmpl.format(MEASURMENT=meas, **value))
         group_str += ("\n" + group_tmpl.format(BATCH_ID=batch_id, NSIDX=nsidx, NODES=node_str))
     input_str = ("\n" + input_tmpl.format(GROUPS=group_str))
+    input_str = input_str.format(**settings.DATABASES["influx"])
 
     with open('res/telegraf.conf', 'w') as file:
         file.write(input_str)
 
 
 def start_telegraf(conf):
-    return
+    img = "hello_world"
+    client = docker.from_env()
+    if not client.images.list(filters=img):
+        print(f"pull {img}")
+        client.pull(img)
+    print(f"run {img}")
+    client.containers.run(img)
+
 
 
 # Zu test zwecken

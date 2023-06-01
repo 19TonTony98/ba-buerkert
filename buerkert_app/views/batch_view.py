@@ -18,7 +18,7 @@ class BatchView(View):
         try:
             with InfluxDBClient(**DATABASES["influx"]) as client:
                 query_api = client.query_api()
-                query = f"""from(bucket: "sample-bucket")
+                query = f"""from(bucket: "{DATABASES["influx"]["bucket"]}")
                               |> range(start: {self.start})
                               |> filter(fn: (r) => r._measurement == "{batch_id}")
                          """
