@@ -142,4 +142,4 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-OPCUA_URL = "opc.tcp://localhost:4840/freeopcua/server/"
+OPCUA_URL = "opc.tcp://10.154.4.38:4840/freeopcua/server/"
