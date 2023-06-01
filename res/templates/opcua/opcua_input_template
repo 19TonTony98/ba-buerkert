@@ -3,7 +3,7 @@
 {GROUPS}
 
 [[outputs.influxdb_v2]]
-  urls = ["{url}"]
-  token = "{token}"
-  organization = "{org}"
-  bucket = "{bucket}"
+    urls = ["{url}"]
+    token = "{token}"
+    organization = "{org}"
+    bucket = "{bucket}"

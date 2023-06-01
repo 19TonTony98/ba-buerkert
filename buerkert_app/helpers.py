@@ -109,8 +109,7 @@ def create_telegraf_conf(batch_dict, sps_list):
             for value in values:
                 node_str += ("\n" + node_tmpl.format(MEASURMENT=meas, **value))
         group_str += ("\n" + group_tmpl.format(BATCH_ID=batch_id, NSIDX=nsidx, NODES=node_str))
-    input_str = ("\n" + input_tmpl.format(GROUPS=group_str))
-    input_str = input_str.format(**settings.DATABASES["influx"])
+    input_str = ("\n" + input_tmpl.format(GROUPS=group_str, **settings.DATABASES["influx"]))
 
     with open('res/telegraf.conf', 'w') as file:
         file.write(input_str)
