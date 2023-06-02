@@ -116,13 +116,14 @@ def create_telegraf_conf(batch_dict, sps_list):
 
 
 def start_telegraf(conf):
-    img = "hello_world"
-    client = docker.from_env()
-    if not client.images.list(filters=img):
+    img = "hello-world"
+    client = docker.DockerClient(base_url='unix://var/run/docker.sock')
+    if not client.images.list(name=img):
         print(f"pull {img}")
         client.pull(img)
     print(f"run {img}")
-    client.containers.run(img)
+    client.containers.run("hello-world", name="hello_world")
+    #client.containers.run("py:dev", name="python_dev")
 
 
 

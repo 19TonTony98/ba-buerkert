@@ -1,9 +1,21 @@
-[[inputs.opcua]]
-    name = "opcua"
-{GROUPS}
+[agent]
+  interval = "10s"
+  round_interval = true
+  metric_batch_size = 1000
+  metric_buffer_limit = 10000
+  collection_jitter = "0s"
+  flush_interval = "10s"
+  flush_jitter = "0s"
+  precision = ""
+  hostname = ""
+  omit_hostname = false
 
 [[outputs.influxdb_v2]]
-    urls = ["{url}"]
-    token = "{token}"
-    organization = "{org}"
-    bucket = "{bucket}"
+  urls = ["{url}"]
+  token = "{token}"
+  organization = "{org}"
+  bucket = "{bucket}"
+  
+[[inputs.opcua]]
+  name = "opcua"
+{GROUPS}
