@@ -1,5 +1,5 @@
 # pull official base image
-FROM python:3
+FROM python:3.11
 
 
 # setup environment variable

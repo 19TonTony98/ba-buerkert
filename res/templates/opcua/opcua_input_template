@@ -18,4 +18,5 @@
   
 [[inputs.opcua]]
   name = "opcua"
+  endpoint = "{endpoint}"
 {GROUPS}

@@ -11,6 +11,7 @@ IO_IDENT = "res/io_ident.json"
 
 SPS_CONF = "res/last_sps_conf.json"
 
+
 async def get_opcua_data():
     url = settings.OPCUA_URL
     results = []
@@ -109,22 +110,28 @@ def create_telegraf_conf(batch_dict, sps_list):
             for value in values:
                 node_str += ("\n" + node_tmpl.format(MEASURMENT=meas, **value))
         group_str += ("\n" + group_tmpl.format(BATCH_ID=batch_id, NSIDX=nsidx, NODES=node_str))
-    input_str = ("\n" + input_tmpl.format(GROUPS=group_str, **settings.DATABASES["influx"]))
+    input_str = ("\n" + input_tmpl.format(GROUPS=group_str, endpoint=settings.OPCUA_URL,
+                                          **settings.DATABASES["influx"]))
 
     with open('res/telegraf.conf', 'w') as file:
         file.write(input_str)
 
 
 def start_telegraf(conf):
-    img = "hello-world"
+    img = "telegraf"
     client = docker.DockerClient(base_url='unix://var/run/docker.sock')
     if not client.images.list(name=img):
         print(f"pull {img}")
-        client.pull(img)
+        client.images.pull(img)
     print(f"run {img}")
-    client.containers.run("hello-world", name="hello_world")
-    #client.containers.run("py:dev", name="python_dev")
-
+    with open('res/telegraf.conf', 'r') as file:
+        print(file.read())
+    con = client.containers.run(img, name=img, detach=True, remove=True,
+                                ports={"8125/udp": "8125",
+                                       "8092/udp": "8092",
+                                       "8094/tcp": "8094"},
+                                volumes=[os.path.abspath('res/telegraf.conf') + ':/etc/telegraf/telegraf.conf', ])
+    # client.containers.run("py:dev", name="python_dev")
 
 
 # Zu test zwecken
