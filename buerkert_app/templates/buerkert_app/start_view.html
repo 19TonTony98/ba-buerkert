@@ -8,9 +8,15 @@
         </div>
         <div class="card-body" id="body">
             <form method="post">{% csrf_token %}
-                {% bootstrap_form form %}
-                {% bootstrap_button "Start" %}
-
+                {% if batch_id %}
+                    <div class="mb-3">
+                        <label class="form-label" >Aktiver Batch: {{ batch.batch_id }}, gestartet am: {{ batch.start }}</label>
+                        <a type="button" class="btn btn-danger" href="{% url 'start' %}?telegraf=stop">Stop</a>
+                    </div>
+                {% else %}
+                    {% bootstrap_form form %}
+                    {% bootstrap_button "Start" %}
+                {% endif %}
                 <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
                         aria-expanded="false" aria-controls="collapseExample">
                     SPS Einstellungen

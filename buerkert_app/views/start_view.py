@@ -4,15 +4,28 @@ from django.forms import formset_factory
 from django.shortcuts import render, redirect
 from django.views import View
 
-from buerkert_app.helpers import create_telegraf_conf, start_telegraf, get_conf_list, save_conf_list
+from buerkert_app.helpers import create_telegraf_conf, start_telegraf, get_conf_list, save_conf_list, \
+    is_telegraf_running, stop_telegraf, get_last_batch_id
 
 
 class StartView(View):
     def get(self, request):
+        if request.GET.get("telegraf") == "stop":
+            stop_telegraf()
+            return redirect('start')
         context = {}
-        form = BatchForm()
+        form = None
+        if not(batch := is_telegraf_running()):
+            try:
+                last_id = get_last_batch_id()
+            except Exception as e:
+                messages.error(request, e)
+                new_id = ""
+            else:
+                new_id = last_id + 1
+            form = BatchForm(initial={"batch_id": new_id})
         formset = ConfFormSet(initial=get_conf_list())
-        context.update({"form": form, "formset": formset})
+        context.update({"form": form, "formset": formset, "batch": batch})
         return render(request, "buerkert_app/start_view.html", context)
 
     def post(self, request):
@@ -31,13 +44,14 @@ class StartView(View):
         if not request.POST.get("batch_id"):
             messages.error(request, "Batch-ID ungültig")
         elif form.is_valid() and formset.is_valid():
+            batch_id = form.cleaned_data['batch_id']
             save_conf_list(formset.cleaned_data)
             messages.success(request, "Einstellungen gespeichert")
             try:
                 #ToDo telegraf conf
                 create_telegraf_conf(form.cleaned_data, formset.cleaned_data)
-                start_telegraf("")
-                messages.success(request, "Aufzeichnung gestartet")
+                start_telegraf(batch_id)
+                messages.success(request, f"Aufzeichnung für Batch-ID {batch_id} gestartet")
                 return redirect('live')
             except Exception as e:
                 messages.error(request, e)

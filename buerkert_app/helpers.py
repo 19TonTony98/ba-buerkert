@@ -1,16 +1,23 @@
 import asyncio
+import datetime
 import json
 import os
 
+import requests
 from asyncua import Client
 import docker
+from influxdb_client import InfluxDBClient
+from influxdb_client.client.exceptions import InfluxDBError
+from influxdb_client.client.query_api import QueryOptions
 
 from buerkert import settings
+from buerkert.settings import DATABASES
 
 IO_IDENT = "res/io_ident.json"
 
 SPS_CONF = "res/last_sps_conf.json"
 
+TELEGRAF_IMAGE = "telegraf"
 
 async def get_opcua_data():
     url = settings.OPCUA_URL
@@ -117,27 +124,46 @@ def create_telegraf_conf(batch_dict, sps_list):
         file.write(input_str)
 
 
-def start_telegraf(conf):
-    img = "telegraf"
+def start_telegraf(batch_id):
+    stop_telegraf()
     client = docker.DockerClient(base_url='unix://var/run/docker.sock')
-    if not client.images.list(name=img):
-        print(f"pull {img}")
-        client.images.pull(img)
-    print(f"run {img}")
-    with open('res/telegraf.conf', 'r') as file:
-        print(file.read())
-    con = client.containers.run(img, name=img, detach=True, remove=True,
-                                ports={"8125/udp": "8125",
-                                       "8092/udp": "8092",
-                                       "8094/tcp": "8094"},
-                                volumes=[os.path.abspath('res/telegraf.conf') + ':/etc/telegraf/telegraf.conf', ])
-    # client.containers.run("py:dev", name="python_dev")
+    if not client.images.list(name=TELEGRAF_IMAGE):
+        print(f"pull {TELEGRAF_IMAGE}")
+        client.images.pull(TELEGRAF_IMAGE)
+    print(f"run {TELEGRAF_IMAGE}")
+    con = client.containers.run(TELEGRAF_IMAGE, name=TELEGRAF_IMAGE, detach=True, remove=True,
+                                network_mode="host", labels={"batch_id": batch_id, "start": datetime.datetime.now()},
+                                volumes=[os.path.abspath('res/telegraf.conf') + ':/etc/telegraf/telegraf.conf',
+                                         os.path.abspath('res/cert.pem') + ':/etc/telegraf/cert.pem',
+                                         os.path.abspath('res/key.pem') + ':/etc/telegraf/key.pem', ])
+
+
+def stop_telegraf():
+    client = docker.DockerClient(base_url='unix://var/run/docker.sock')
+    for con in client.containers.list(filters={'name': TELEGRAF_IMAGE}):
+        con.kill()
+
+
+def is_telegraf_running():
+    client = docker.DockerClient(base_url='unix://var/run/docker.sock')
+    for con in client.containers.list(filters={'name': TELEGRAF_IMAGE}):
+        return con.labels
+
+
+def get_last_batch_id():
+    with InfluxDBClient(**DATABASES["influx"]) as client:
+        query_api = client.query_api()
+        query = f'''
+        from(bucket: "{DATABASES["influx"]["bucket"]}")
+          |> range(start: 0)
+          |> filter(fn: (r) => r._measurement =~ /[0-9]+/)
+          |> group()
+        '''
+        if (df := query_api.query_data_frame(query)).empty:
+            raise InfluxDBError(message="No Data found")
+        return int(df["_measurement"].max())
 
 
 # Zu test zwecken
 if __name__ == "__main__":
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    loop = asyncio.get_event_loop()
-    values, opc_messages = loop.run_until_complete(get_opcua_data())
-    loop.close()
+    get_last_batch_id()
