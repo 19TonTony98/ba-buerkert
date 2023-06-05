@@ -90,9 +90,9 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     },
     'influx': {
-        "url": "http://localhost:8086",
+        "url": "http://172.18.0.2:8086",
         "org": "HSWT",
-        "token": "HU2pUPKNK0bI2UiaVBqVk0mhM-rMhrvZxlTfKcO4H8KHwu8VUCf8ZOHqhz0aooPsJwTOCMX12a5FoUARxJ8mZw==",
+        "token": "BrqgG5LBCVEKB584i5UthgbfBpapJw6FIadUV4-iz8fthCMkKbvUbUA5PGpC4AGZhg46QPyUtEAbYpJnN0jzmg==",
         "bucket": "sample-bucket"
     }
 }
