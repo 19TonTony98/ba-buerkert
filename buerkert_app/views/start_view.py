@@ -59,7 +59,7 @@ class StartView(View):
             messages.error(request, "Ungültige Eingabe")
 
         context.update({"form": form, "formset": formset})
-        return render(request, "buerkert_app/start_view.html", context)
+        return self.get(request)
 
 
 class BatchForm(forms.Form):

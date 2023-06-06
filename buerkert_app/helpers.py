@@ -24,6 +24,8 @@ SPS_CONF = "res/last_sps_conf.json"
 
 TELEGRAF_IMAGE = "telegraf"
 
+DATE_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
+
 
 async def get_opcua_data():
     url = settings.OPCUA_URL
@@ -137,8 +139,8 @@ def start_telegraf(batch_id):
         print(f"pull {TELEGRAF_IMAGE}")
         client.images.pull(TELEGRAF_IMAGE)
     print(f"run {TELEGRAF_IMAGE}")
-    con = client.containers.run(TELEGRAF_IMAGE, name=TELEGRAF_IMAGE, detach=True, remove=True,
-                                network_mode="host", labels={"batch_id": batch_id, "start": datetime.datetime.now()},
+    con = client.containers.run(TELEGRAF_IMAGE, name=TELEGRAF_IMAGE, detach=True, remove=True, network_mode="host",
+                                labels={"batch_id": batch_id, "start": datetime.datetime.now().strftime(DATE_FORMAT)},
                                 volumes=[os.path.abspath('res/telegraf.conf') + ':/etc/telegraf/telegraf.conf',
                                          os.path.abspath('res/cert.pem') + ':/etc/telegraf/cert.pem',
                                          os.path.abspath('res/key.pem') + ':/etc/telegraf/key.pem', ])
@@ -153,6 +155,8 @@ def stop_telegraf():
 def is_telegraf_running():
     client = docker.DockerClient(base_url='unix://var/run/docker.sock')
     for con in client.containers.list(filters={'name': TELEGRAF_IMAGE}):
+        labels = con.labels
+        labels['start'] = datetime.datetime.strptime(labels['start'], DATE_FORMAT)
         return con.labels
 
 

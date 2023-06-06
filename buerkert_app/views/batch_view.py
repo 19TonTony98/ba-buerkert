@@ -10,6 +10,7 @@ from influxdb_client.client.exceptions import InfluxDBError
 
 from buerkert.settings import DATABASES
 from buerkert_app.dashes.batch_dash import BatchDash
+from buerkert_app.helpers import DATE_FORMAT
 
 import warnings
 from influxdb_client.client.warnings import MissingPivotFunction
@@ -18,7 +19,7 @@ warnings.simplefilter("ignore", MissingPivotFunction)
 
 
 class BatchView(View):
-    start = datetime.datetime(year=23, month=1, day=1).strftime("00%Y-%m-%dT%H:%M:%SZ")
+    start = "00"+datetime.datetime(year=23, month=1, day=1).strftime(DATE_FORMAT)
 
     def get(self, request, batch_id=None):
         start = re.search("00[^0].+", self.start).group()

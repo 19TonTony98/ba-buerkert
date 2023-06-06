@@ -10,9 +10,10 @@
         <div class="d-flex flex-wrap justify-content-between">
             <div class="p-2">
                 <form method="post">{% csrf_token %}
-                {% if batch_id %}
+                {% if batch %}
                     <div class="mb-3">
                         <label class="form-label" >Aktiver Batch: {{ batch.batch_id }}, gestartet am: {{ batch.start }}</label>
+                        <br>
                         <a type="button" class="btn btn-danger" href="{% url 'start' %}?telegraf=stop">Stop</a>
                     </div>
                 {% else %}
