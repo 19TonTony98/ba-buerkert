@@ -13,6 +13,11 @@ from influxdb_client.client.query_api import QueryOptions
 from buerkert import settings
 from buerkert.settings import DATABASES
 
+import warnings
+from influxdb_client.client.warnings import MissingPivotFunction
+
+warnings.simplefilter("ignore", MissingPivotFunction)
+
 IO_IDENT = "res/io_ident.json"
 
 SPS_CONF = "res/last_sps_conf.json"

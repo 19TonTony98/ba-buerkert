@@ -1,9 +1,12 @@
+import random
+import uuid
 from math import ceil as up
 
 from dash import dcc, html, Input, Output, dash_table
 from django_plotly_dash import DjangoDash
 import dash_bootstrap_components as dbc
 import plotly.express as px
+import plotly.graph_objects as go
 
 
 class BatchDash:
@@ -51,14 +54,26 @@ class BatchDash:
             [Input("pagination", "active_page")],
         )
         def change_page(page):
-            return page-1 if page else 1
+            return page - 1 if page else 1
 
         @app.callback(
             Output("graph", "figure"),
             Input("checklist", "value"))
         def update_line_chart(values):
-            mask = df[check_col].isin(values)
-            fig = px.line(df[mask], x=x, y=y, color=color)
+            fig = go.Figure()
+            layout_dict = {}
+            for i, value in enumerate(values, 1):
+                v_name = value if len(values) > 1 else ""
+                for group_name, group_df in df.loc[df[check_col] == value].groupby(color):
+                    fig.add_trace(go.Scatter(x=group_df[x], y=group_df[y], name=f"{group_name}({v_name})", yaxis=f"y{i}"))
+                f_col = px.colors.sequential.Rainbow[i]
+                layout_dict[f"yaxis{i}"] = {"title": v_name,
+                                            "titlefont": {"color": f_col},
+                                            "tickfont": {"color": f_col},
+                                            "side": "left" if i % 2 else "right",}
+                if i > 1:
+                    layout_dict[f"yaxis{i}"].update({"overlaying": "y"})
+            fig.update_layout(**layout_dict)
             return fig
 
         @app.callback(
@@ -73,5 +88,4 @@ class BatchDash:
             Input("checklist", "value")
         )
         def change_pagingation(values):
-            return up(df[df["_field"].isin(values)].shape[0]/page_size)
-
+            return up(df[df["_field"].isin(values)].shape[0] / page_size)
