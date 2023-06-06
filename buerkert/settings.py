@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_bootstrap5',
+    "bootstrap_datepicker_plus",
     'django_plotly_dash.apps.DjangoPlotlyDashConfig',
     'dpd_static_support',
     "django_htmx",
@@ -90,7 +91,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     },
     'influx': {
-        "url": "http://172.18.0.2:8086",
+        "url": "http://localhost:8086",
         "org": "HSWT",
         "token": "BrqgG5LBCVEKB584i5UthgbfBpapJw6FIadUV4-iz8fthCMkKbvUbUA5PGpC4AGZhg46QPyUtEAbYpJnN0jzmg==",
         "bucket": "sample-bucket"

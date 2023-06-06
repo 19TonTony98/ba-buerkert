@@ -18,6 +18,7 @@ dash-html-components==2.0.0
 dash-table==5.0.0
 django==4.2.1
 django-bootstrap5==23.1
+django-bootstrap-datepicker-plus==5.0.3
 django-htmx==1.14.0
 django-plotly-dash==2.2.1
 docker==6.1.2

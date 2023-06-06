@@ -8,6 +8,7 @@ django = "*"
 django-plotly-dash = "*"
 influxdb-client = {extras = ["extra"], version = "*"}
 django-bootstrap5 = "*"
+django-bootstrap-datepicker-plus = "*"
 dpd-static-support = "*"
 whitenoise = "*"
 dash-bootstrap-components = "*"

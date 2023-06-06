@@ -1,8 +1,12 @@
+import datetime
+
 from django import forms
 from django.contrib import messages
 from django.forms import formset_factory
 from django.shortcuts import render, redirect
+from django.utils import timezone
 from django.views import View
+from bootstrap_datepicker_plus.widgets import DateTimePickerInput
 
 from buerkert_app.helpers import create_telegraf_conf, start_telegraf, get_conf_list, save_conf_list, \
     is_telegraf_running, stop_telegraf, get_last_batch_id, get_batch_ids
@@ -14,17 +18,18 @@ class StartView(View):
             stop_telegraf()
             return redirect('start')
         context = {}
+        recent_batches = []
         batch = None
         new_id = ""
         try:
             if not(batch := is_telegraf_running()):
-                last_id = get_last_batch_id()
+                recent_batches = get_batch_ids(10)
+                last_id = recent_batches[0]['batch_id']
                 new_id = last_id + 1
         except Exception as e:
             messages.error(request, e)
-        form = BatchForm(initial={"batch_id": new_id})
+        form = BatchForm(initial={"batch_id": new_id, "start": datetime.datetime.now()})
         formset = ConfFormSet(initial=get_conf_list())
-        recent_batches = get_batch_ids(10)
         context.update({"form": form, "formset": formset, "batch": batch, "recent_batches": recent_batches})
         return render(request, "buerkert_app/start_view.html", context)
 
@@ -64,6 +69,8 @@ class StartView(View):
 
 class BatchForm(forms.Form):
     batch_id = forms.CharField(label="Batch-ID", required=False)
+    start = forms.DateTimeField(label="Beginn", widget=DateTimePickerInput())
+    end = forms.DateTimeField(label="Ende", widget=DateTimePickerInput(range_from='start'), required=False)
 
 
 class ConfForm(forms.Form):
