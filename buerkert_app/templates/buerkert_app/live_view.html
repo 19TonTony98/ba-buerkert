@@ -4,7 +4,7 @@
 {% block content %}
     <div class="card">
         <div class="card-header">
-            <h5 class="title">Live Daten {% if batch_id %}für {{ batch.batch_id }}{% endif %}</h5>
+            <h5 class="title">Live Daten {% if batch %}für {{ batch.batch_id }}{% endif %}</h5>
         </div>
         <div class="card-body" id="body">
         <div hx-get="{% url 'live' %}" hx-trigger="every 2s"></div>

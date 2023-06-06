@@ -1,5 +1,6 @@
 import asyncio
 
+from django.contrib import messages
 from django.shortcuts import render
 from django.views import View
 
@@ -18,6 +19,10 @@ class LiveView(View):
             context = {"values": values, "opc_messages": opc_messages}
             return render(request, "snippets/data_values.html", context)
         context = {}
-        batch = is_telegraf_running()
+        batch = None
+        try:
+            batch = is_telegraf_running()
+        except Exception as e:
+            messages.error(request, e)
         context.update({"batch": batch})
         return render(request, "buerkert_app/live_view.html", context)

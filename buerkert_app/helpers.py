@@ -24,6 +24,7 @@ SPS_CONF = "res/last_sps_conf.json"
 
 TELEGRAF_IMAGE = "telegraf"
 
+
 async def get_opcua_data():
     url = settings.OPCUA_URL
     results = []
@@ -155,7 +156,7 @@ def is_telegraf_running():
         return con.labels
 
 
-def get_last_batch_id():
+def get_batch_ids(max=1):
     with InfluxDBClient(**DATABASES["influx"]) as client:
         query_api = client.query_api()
         query = f'''
@@ -166,7 +167,15 @@ def get_last_batch_id():
         '''
         if (df := query_api.query_data_frame(query)).empty:
             raise InfluxDBError(message="No Data found")
-        return int(df["_measurement"].max())
+        df = df.rename(columns={"_time": "time", '_measurement': "batch_id"})
+        df = df.sort_values(by=['time'], ascending=False).drop_duplicates(subset=['batch_id'])
+        if len(batch_list := df.get(["batch_id", "time"]).to_dict('records')) > max:
+            batch_list = batch_list[:max]
+        return batch_list
+
+
+def get_last_batch_id():
+    return int(get_batch_ids()[0]["batch_id"])
 
 
 # Zu test zwecken

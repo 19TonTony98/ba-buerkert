@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 
 from buerkert_app.helpers import create_telegraf_conf, start_telegraf, get_conf_list, save_conf_list, \
-    is_telegraf_running, stop_telegraf, get_last_batch_id
+    is_telegraf_running, stop_telegraf, get_last_batch_id, get_batch_ids
 
 
 class StartView(View):
@@ -14,18 +14,18 @@ class StartView(View):
             stop_telegraf()
             return redirect('start')
         context = {}
-        form = None
-        if not(batch := is_telegraf_running()):
-            try:
+        batch = None
+        new_id = ""
+        try:
+            if not(batch := is_telegraf_running()):
                 last_id = get_last_batch_id()
-            except Exception as e:
-                messages.error(request, e)
-                new_id = ""
-            else:
                 new_id = last_id + 1
-            form = BatchForm(initial={"batch_id": new_id})
+        except Exception as e:
+            messages.error(request, e)
+        form = BatchForm(initial={"batch_id": new_id})
         formset = ConfFormSet(initial=get_conf_list())
-        context.update({"form": form, "formset": formset, "batch": batch})
+        recent_batches = get_batch_ids(10)
+        context.update({"form": form, "formset": formset, "batch": batch, "recent_batches": recent_batches})
         return render(request, "buerkert_app/start_view.html", context)
 
     def post(self, request):
