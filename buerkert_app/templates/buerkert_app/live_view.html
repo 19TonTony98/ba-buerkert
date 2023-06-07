@@ -4,7 +4,16 @@
 {% block content %}
     <div class="card">
         <div class="card-header">
-            <h5 class="title">Live Daten {% if batch %}für {{ batch.batch_id }}{% endif %}</h5>
+            <h5 class="title">Live Daten
+                {% if batch and running == "running" %}
+                    für Batch: {{ batch.batch_id }},
+                    gestartet: {{ batch.start }},
+                    {% if batch.end %}wird beendet: {{ batch.end }}{% endif %}
+                {% elif batch %}
+                    | Nächster Batch {{ batch.batch_id }}
+                    wird gestartet am {{ batch.start }}
+                    {% if batch.end %}und beendet am {{ batch.end }}{% endif %}
+                {% endif %}</h5>
         </div>
         <div class="card-body" id="body">
         <div hx-get="{% url 'live' %}" hx-trigger="every 2s"></div>

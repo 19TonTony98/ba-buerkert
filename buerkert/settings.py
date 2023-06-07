@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-6@3xnavz%+mjyrxw$qb9^$j7i8d)(f&z10!*v^v^yp%88sryr6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django_plotly_dash.apps.DjangoPlotlyDashConfig',
     'dpd_static_support',
     "django_htmx",
+    'background_task',
 ]
 
 MIDDLEWARE = [
@@ -91,7 +92,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     },
     'influx': {
-        "url": "http://localhost:8086",
+        "url": "http://172.18.0.2:8086",
         "org": "HSWT",
         "token": "BrqgG5LBCVEKB584i5UthgbfBpapJw6FIadUV4-iz8fthCMkKbvUbUA5PGpC4AGZhg46QPyUtEAbYpJnN0jzmg==",
         "bucket": "sample-bucket"
@@ -145,3 +146,6 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 OPCUA_URL = "opc.tcp://10.154.4.38:4840/freeopcua/server/"
+
+# Django Background Tasks Configuration
+BACKGROUND_TASK_RUN_ASYNC = True

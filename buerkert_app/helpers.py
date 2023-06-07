@@ -9,6 +9,8 @@ import docker
 from influxdb_client import InfluxDBClient
 from influxdb_client.client.exceptions import InfluxDBError
 from influxdb_client.client.query_api import QueryOptions
+from background_task import background
+from background_task.models import Task
 
 from buerkert import settings
 from buerkert.settings import DATABASES
@@ -132,32 +134,67 @@ def create_telegraf_conf(batch_dict, sps_list):
         file.write(input_str)
 
 
-def start_telegraf(batch_id):
-    stop_telegraf()
+def create_container(batch_id, start, end):
+    # stop_telegraf()
     client = docker.DockerClient(base_url='unix://var/run/docker.sock')
     if not client.images.list(name=TELEGRAF_IMAGE):
         print(f"pull {TELEGRAF_IMAGE}")
         client.images.pull(TELEGRAF_IMAGE)
-    print(f"run {TELEGRAF_IMAGE}")
-    con = client.containers.run(TELEGRAF_IMAGE, name=TELEGRAF_IMAGE, detach=True, remove=True, network_mode="host",
-                                labels={"batch_id": batch_id, "start": datetime.datetime.now().strftime(DATE_FORMAT)},
-                                volumes=[os.path.abspath('res/telegraf.conf') + ':/etc/telegraf/telegraf.conf',
-                                         os.path.abspath('res/cert.pem') + ':/etc/telegraf/cert.pem',
-                                         os.path.abspath('res/key.pem') + ':/etc/telegraf/key.pem', ])
+    if containers := list(filter(lambda con: con.name.startswith(TELEGRAF_IMAGE), client.containers.list(all=True))):
+        labels = containers[0].labels
+        labels['start'] = datetime.datetime.strptime(labels['start'], DATE_FORMAT)
+        labels['end'] = datetime.datetime.strptime(labels['end'], DATE_FORMAT) if labels['end'] else None
+        return False, labels
+    else:
+        labels = {"batch_id": batch_id, "start": start.strftime(DATE_FORMAT),
+                  "end": end.strftime(DATE_FORMAT) if end else None}
+        client.containers.create(TELEGRAF_IMAGE, name=f"{TELEGRAF_IMAGE}_{batch_id}", detach=True, network_mode="host",
+                                 labels=labels,
+                                 volumes=[os.path.abspath('res/telegraf.conf') + ':/etc/telegraf/telegraf.conf',
+                                          os.path.abspath('res/cert.pem') + ':/etc/telegraf/cert.pem',
+                                          os.path.abspath('res/key.pem') + ':/etc/telegraf/key.pem', ])
+        return True, labels
 
 
-def stop_telegraf():
+def stop_container():
     client = docker.DockerClient(base_url='unix://var/run/docker.sock')
-    for con in client.containers.list(filters={'name': TELEGRAF_IMAGE}):
-        con.kill()
+    for container in list(filter(lambda con: con.name.startswith(TELEGRAF_IMAGE), client.containers.list(all=True))):
+        name, labels = container.name, container.labels
+        if container.status == "running":
+            container.kill()
+        container.remove()
+        print(f"stopped {container.name} {container.status}, normaly stops at {container.labels['end']}")
 
 
-def is_telegraf_running():
+@background(schedule=0)
+def start_container():
     client = docker.DockerClient(base_url='unix://var/run/docker.sock')
-    for con in client.containers.list(filters={'name': TELEGRAF_IMAGE}):
+    for container in list(filter(lambda con: con.name.startswith(TELEGRAF_IMAGE), client.containers.list(all=True))):
+        name, labels = container.name, container.labels
+        start = datetime.datetime.strptime(labels['start'], DATE_FORMAT)
+        end = datetime.datetime.strptime(labels['end'], DATE_FORMAT) if labels['end'] else datetime.datetime.max
+        if start <= datetime.datetime.now() < end:
+            if container.status != "running":
+                print(f"{container.name} {container.status}, starts at {container.labels['start']}")
+                container.start()
+            print(f"{container.name} {container.status}, stops at {container.labels['end']}")
+        elif end and end < datetime.datetime.now():
+            stop_container()
+            print(f"{name} forced stops at {datetime.datetime.now()}")
+            background_tasks = Task.objects.filter(task_name='buerkert_app.background_tasks.start_container')
+            for background_task in background_tasks:
+                background_task.delete()
+
+
+def is_container_running():
+    client = docker.DockerClient(base_url='unix://var/run/docker.sock')
+    for con in list(filter(lambda con: con.name.startswith(TELEGRAF_IMAGE), client.containers.list(all=True))):
         labels = con.labels
         labels['start'] = datetime.datetime.strptime(labels['start'], DATE_FORMAT)
-        return con.labels
+        labels['end'] = datetime.datetime.strptime(labels['end'], DATE_FORMAT) if labels['end'] else None
+        print("status:" + con.status)
+        return labels, con.status
+    return None, None
 
 
 def get_batch_ids(max=1):

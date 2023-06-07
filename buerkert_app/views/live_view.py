@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.shortcuts import render
 from django.views import View
 
-from buerkert_app.helpers import get_opcua_data, is_telegraf_running
+from buerkert_app.helpers import get_opcua_data, is_container_running
 
 
 class LiveView(View):
@@ -20,9 +20,10 @@ class LiveView(View):
             return render(request, "snippets/data_values.html", context)
         context = {}
         batch = None
+        running = None
         try:
-            batch = is_telegraf_running()
+            batch, running = is_container_running()
         except Exception as e:
             messages.error(request, e)
-        context.update({"batch": batch})
+        context.update({"batch": batch, "running": running})
         return render(request, "buerkert_app/live_view.html", context)

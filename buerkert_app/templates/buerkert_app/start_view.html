@@ -10,18 +10,31 @@
         <div class="card-body" id="body">
         <div class="d-flex flex-wrap justify-content-between">
             <div class="p-2">
-                <form method="post">{% csrf_token %}
-                {% if batch %}
+                <form method="post">
+                {% if batch and running == "running"%}
                     <div class="mb-3">
-                        <label class="form-label" >Aktiver Batch: {{ batch.batch_id }}, gestartet am: {{ batch.start }}</label>
+                        <label class="form-label" >
+                            Aktiver Batch: {{ batch.batch_id }},
+                            gestartet: {{ batch.start }},
+                            {% if batch.end %} wird beendet: {{ batch.end }}{% endif %}</label>
                         <br>
-                        <a type="button" class="btn btn-danger" href="{% url 'start' %}?telegraf=stop">Stop</a>
+                        <a type="button" class="btn btn-danger" href="{% url 'start' %}?stop=True">Stop</a>
+                    </div>
+                {% elif batch %}
+                    <div class="mb-3">
+                        <label class="form-label" >
+                            N#chster Batch: {{ batch.batch_id }},
+                            wird gestartet: {{ batch.start }},
+                            {% if batch.end %} wird beendet: {{ batch.end }}{% endif %}</label>
+                        <br>
+                        <a type="button" class="btn btn-danger" href="{% url 'start' %}?stop=True">Stop</a>
                     </div>
                 {% else %}
                     {{ form.media }}
                     {% bootstrap_form form %}
                     {% bootstrap_button "Start" %}
                 {% endif %}
+                {% csrf_token %}
                 <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
                         aria-expanded="false" aria-controls="collapseExample">
                     SPS Einstellungen

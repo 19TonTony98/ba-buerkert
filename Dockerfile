@@ -24,4 +24,14 @@ RUN pip install -r requirements.txt
 # port where the Django app runs
 EXPOSE 8000/tcp
 # start server
-CMD python manage.py runserver 0.0.0.0:8000
+CMD python manage.py makemigrations
+CMD python manage.py migrate
+
+# Install dependencies
+RUN apt-get update && apt-get install -y supervisor
+
+# Copy the supervisor configuration file
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Start supervisord when the container launches
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

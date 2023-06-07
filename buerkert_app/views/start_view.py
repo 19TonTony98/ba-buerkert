@@ -4,33 +4,34 @@ from django import forms
 from django.contrib import messages
 from django.forms import formset_factory
 from django.shortcuts import render, redirect
-from django.utils import timezone
 from django.views import View
 from bootstrap_datepicker_plus.widgets import DateTimePickerInput
 
-from buerkert_app.helpers import create_telegraf_conf, start_telegraf, get_conf_list, save_conf_list, \
-    is_telegraf_running, stop_telegraf, get_last_batch_id, get_batch_ids
+from buerkert_app.helpers import create_telegraf_conf, get_conf_list, save_conf_list, get_batch_ids, \
+    is_container_running, stop_container, create_container, start_container
 
 
 class StartView(View):
     def get(self, request):
-        if request.GET.get("telegraf") == "stop":
-            stop_telegraf()
+        if request.GET.get("stop"):
+            stop_container()
             return redirect('start')
         context = {}
         recent_batches = []
         batch = None
         new_id = ""
+        running = None
         try:
-            if not(batch := is_telegraf_running()):
-                recent_batches = get_batch_ids(10)
-                last_id = recent_batches[0]['batch_id']
-                new_id = last_id + 1
+            batch, running = is_container_running()
+            recent_batches = get_batch_ids(10)
+            last_id = int(recent_batches[0]['batch_id'])
+            new_id = last_id + 1
         except Exception as e:
             messages.error(request, e)
         form = BatchForm(initial={"batch_id": new_id, "start": datetime.datetime.now()})
         formset = ConfFormSet(initial=get_conf_list())
-        context.update({"form": form, "formset": formset, "batch": batch, "recent_batches": recent_batches})
+        context.update({"form": form, "formset": formset, "batch": batch, "running": running,
+                        "recent_batches": recent_batches})
         return render(request, "buerkert_app/start_view.html", context)
 
     def post(self, request):
@@ -55,7 +56,11 @@ class StartView(View):
             try:
                 #ToDo telegraf conf
                 create_telegraf_conf(form.cleaned_data, formset.cleaned_data)
-                start_telegraf(batch_id)
+                created, _ = create_container(**form.cleaned_data)
+                if not created:
+                    raise Exception("Ein Batch befindet sich in der Warteschlange")
+                start_container(schedule=form.cleaned_data['start'], repeat=60,
+                                repeat_until=form.cleaned_data['end'])
                 messages.success(request, f"Aufzeichnung für Batch-ID {batch_id} gestartet")
                 return redirect('live')
             except Exception as e:
