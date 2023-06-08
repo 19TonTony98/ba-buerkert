@@ -18,16 +18,18 @@
 {% block navbar %}
     <nav class="navbar navbar-expand-lg fixed-top">
   <div class="container-fluid">
+  <div class="d-flex justify-content-start">
     <a class="navbar-brand" href="{% url 'index' %}">
         <img src="{% static 'buerkert_app/img/hswt-logo.png' %}" alt="HSWT" height="45">
         <div class="vr"></div>
         <img src="{% static 'buerkert_app/img/buerkert-logo.svg' %}" height="30" alt="buerkert">
     </a>
+      <div class="vr"></div>
+  </div>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <div class="vr"></div>
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a class="nav-link mx-2 {% if request.path == live_url %}active{% endif %}" href="{% url 'live' %}">Live</a>
@@ -36,7 +38,7 @@
           <a class="nav-link mx-2 {% if request.path == start_url %}active{% endif %}" href="{% url 'start' %}">Start</a>
         </li>
       </ul>
-      <form class="d-flex" role="search" action="{% url 'index' %}">
+      <form class="d-flex mb-0" role="search" action="{% url 'index' %}" style="">
         <input class="form-control me-2" type="search" placeholder="Batch-ID" aria-label="Batch-ID" name="batch_id">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
@@ -45,7 +47,7 @@
 </nav>
 {% endblock %}
 <div class="p-4"></div>
-<div class="px-1 pt-4">
+<div class="px-1 pt-4 mt-1">
     {% bootstrap_messages %}
     {% block content %}
     {% endblock %}
