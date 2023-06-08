@@ -18,7 +18,7 @@ if __name__ == "__main__":
 
     query_api = client.query_api()
 
-    ## using Table structure
+    # using Table structure
     tables = query_api.query(query)
 
     df = query_api.query_data_frame(query)

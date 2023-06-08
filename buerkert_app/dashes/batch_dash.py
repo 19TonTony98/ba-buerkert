@@ -1,12 +1,10 @@
-import random
-import uuid
 from math import ceil as up
 
-from dash import dcc, html, Input, Output, dash_table, State
-from django_plotly_dash import DjangoDash
 import dash_bootstrap_components as dbc
 import plotly.express as px
 import plotly.graph_objects as go
+from dash import dcc, html, Input, Output, dash_table, State
+from django_plotly_dash import DjangoDash
 
 
 class BatchDash:
@@ -93,7 +91,7 @@ class BatchDash:
             Output("pagination", "max_value"),
             Input("checklist", "value")
         )
-        def change_pagingation(values):
+        def change_pagination(values):
             return up(df[df["_field"].isin(values)].shape[0] / page_size)
 
         @app.callback(

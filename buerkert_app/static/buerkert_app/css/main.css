@@ -2,7 +2,6 @@
     --width-border-sm: 0.0625rem;
     --width-border-md: 0.125rem;
     --width-border-lg: 0.25rem;
-    --width-border-xl: 0.5rem;
     --color-text-fixed: #15171e;
     --color-text-inverse-fixed: #fff;
     --color-background-fixed: #fff;
@@ -24,7 +23,6 @@
     --color-background-secondary-muted: #d3e3b0;
     --color-background-tertiary: #84bd00;
     --color-background-tertiary-muted: #f7fcee;
-    --color-text-on-tertiary: #363636;
     --color-background-blue: #acd8eb;
     --color-background-blue-muted: #eaf4f8;
     --color-text-on-blue: #363636;

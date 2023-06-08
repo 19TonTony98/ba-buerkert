@@ -2,21 +2,18 @@ import asyncio
 import datetime
 import json
 import os
+import warnings
 
-import requests
-from asyncua import Client
 import docker
-from influxdb_client import InfluxDBClient
-from influxdb_client.client.exceptions import InfluxDBError
-from influxdb_client.client.query_api import QueryOptions
+from asyncua import Client
 from background_task import background
 from background_task.models import Task
+from influxdb_client import InfluxDBClient
+from influxdb_client.client.exceptions import InfluxDBError
+from influxdb_client.client.warnings import MissingPivotFunction
 
 from buerkert import settings
 from buerkert.settings import DATABASES
-
-import warnings
-from influxdb_client.client.warnings import MissingPivotFunction
 
 warnings.simplefilter("ignore", MissingPivotFunction)
 
@@ -125,7 +122,7 @@ def create_telegraf_conf(batch_dict, sps_list):
         node_str = ""
         for meas, values in group.items():
             for value in values:
-                node_str += ("\n" + node_tmpl.format(MEASURMENT=meas, **value))
+                node_str += ("\n" + node_tmpl.format(MEASUREMENT=meas, **value))
         group_str += ("\n" + group_tmpl.format(BATCH_ID=batch_id, NSIDX=nsidx, NODES=node_str))
     input_str = ("\n" + input_tmpl.format(GROUPS=group_str, endpoint=settings.OPCUA_URL,
                                           **settings.DATABASES["influx"]))
@@ -159,11 +156,10 @@ def create_container(batch_id, start, end):
 def stop_container():
     client = docker.DockerClient(base_url='unix://var/run/docker.sock')
     for container in list(filter(lambda con: con.name.startswith(TELEGRAF_IMAGE), client.containers.list(all=True))):
-        name, labels = container.name, container.labels
         if container.status == "running":
             container.kill()
         container.remove()
-        print(f"stopped {container.name} {container.status}, normaly stops at {container.labels['end']}")
+        print(f"stopped {container.name} {container.status}, normally stops at {container.labels['end']}")
 
 
 @background(schedule=0)
@@ -197,7 +193,7 @@ def is_container_running():
     return None, None
 
 
-def get_batch_ids(max=1):
+def get_batch_ids(max_ids=1):
     with InfluxDBClient(**DATABASES["influx"]) as client:
         query_api = client.query_api()
         query = f'''
@@ -210,8 +206,8 @@ def get_batch_ids(max=1):
             raise InfluxDBError(message="No Data found")
         df = df.rename(columns={"_time": "time", '_measurement': "batch_id"})
         df = df.sort_values(by=['time'], ascending=False).drop_duplicates(subset=['batch_id'])
-        if len(batch_list := df.get(["batch_id", "time"]).to_dict('records')) > max:
-            batch_list = batch_list[:max]
+        if len(batch_list := df.get(["batch_id", "time"]).to_dict('records')) > max_ids:
+            batch_list = batch_list[:max_ids]
         return batch_list
 
 
