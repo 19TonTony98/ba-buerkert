@@ -24,7 +24,7 @@
         <div class="vr"></div>
         <img src="{% static 'buerkert_app/img/buerkert-logo.svg' %}" height="30" alt="buerkert">
     </a>
-      <div class="vr"></div>
+    <div class="vr mx-1"></div>
   </div>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -32,10 +32,10 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link mx-2 {% if request.path == live_url %}active{% endif %}" href="{% url 'live' %}">Live</a>
+          <a class="nav-link mx-1 px-3 {% if request.path in live_url %} active {% endif %}" href="{% url 'live' %}">Live</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link mx-2 {% if request.path == start_url %}active{% endif %}" href="{% url 'start' %}">Start</a>
+          <a class="nav-link mx-1 px-3 {% if request.path in start_url %} active {% endif %}" href="{% url 'start' %}">Start</a>
         </li>
       </ul>
       <form class="d-flex mb-0" role="search" action="{% url 'index' %}" style="">
