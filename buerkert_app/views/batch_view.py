@@ -10,7 +10,7 @@ from influxdb_client.client.exceptions import InfluxDBError
 
 from buerkert.settings import DATABASES
 from buerkert_app.dashes.batch_dash import BatchDash
-from buerkert_app.helpers import DATE_FORMAT
+from buerkert_app.utils.utils import DATE_FORMAT
 
 import warnings
 from influxdb_client.client.warnings import MissingPivotFunction

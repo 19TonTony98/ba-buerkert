@@ -5,7 +5,7 @@
     <div class="card">
         <div class="card-header">
             <h5 class="title">Live Daten
-                {% if batch and running == "running" %}
+                {% if batch and running %}
                     für Batch: {{ batch.batch_id }},
                     gestartet: {{ batch.start }},
                     {% if batch.end %}wird beendet: {{ batch.end }}{% endif %}

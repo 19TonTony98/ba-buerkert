@@ -11,7 +11,7 @@
         <div class="d-flex flex-wrap justify-content-between">
             <div class="p-2">
                 <form method="post">
-                {% if batch and running == "running"%}
+                {% if batch and running %}
                     <div class="mb-3">
                         <label class="form-label" >
                             Aktiver Batch: {{ batch.batch_id }},

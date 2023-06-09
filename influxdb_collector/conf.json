@@ -1,0 +1,114 @@
+{
+  "batch_id": "401",
+  "sps_list": [
+    {
+      "sps_port": "I1",
+      "display": "VAR1",
+      "measurement": "Temperatur"
+    },
+    {
+      "sps_port": "I2",
+      "display": "VAR2",
+      "measurement": "Temperatur"
+    },
+    {
+      "sps_port": "I3",
+      "display": "VAR3",
+      "measurement": "Druck"
+    },
+    {
+      "sps_port": "O1",
+      "display": "VAR7",
+      "measurement": "Druck"
+    },
+    {
+      "sps_port": "O2",
+      "display": "VAR8",
+      "measurement": "Druck"
+    }
+  ],
+  "io_ident": [
+    {
+      "sps_port": "I1",
+      "node_name": "MyObject",
+      "variable_name": "MyVariable1",
+      "namespace_index": 2,
+      "identifier": 3
+    },
+    {
+      "sps_port": "I2",
+      "node_name": "MyObject",
+      "variable_name": "MyVariable2",
+      "namespace_index": 2,
+      "identifier": 4
+    },
+    {
+      "sps_port": "I3",
+      "node_name": "MyObject",
+      "variable_name": "MyVariable3",
+      "namespace_index": 2,
+      "identifier": 5
+    },
+    {
+      "sps_port": "A1",
+      "node_name": "MyObject",
+      "variable_name": "MyVariable4",
+      "namespace_index": 2,
+      "identifier": 6
+    },
+    {
+      "sps_port": "A2",
+      "node_name": "MyObject",
+      "variable_name": "MyVariable5",
+      "namespace_index": 2,
+      "identifier": 7
+    },
+    {
+      "sps_port": "A3",
+      "node_name": "MyObject2",
+      "variable_name": "MyVariable-1",
+      "namespace_index": 3,
+      "identifier": 2
+    },
+    {
+      "sps_port": "O1",
+      "node_name": "MyObject2",
+      "variable_name": "MyVariable-2",
+      "namespace_index": 3,
+      "identifier": 3
+    },
+    {
+      "sps_port": "O2",
+      "node_name": "MyObject2",
+      "variable_name": "MyVariable-3",
+      "namespace_index": 3,
+      "identifier": 4
+    }
+  ],
+  "url": "opc.tcp://10.154.4.38:4840/freeopcua/server/",
+  "db": {
+    "url": "http://localhost:8086",
+    "org": "HSWT",
+    "token": "BrqgG5LBCVEKB584i5UthgbfBpapJw6FIadUV4-iz8fthCMkKbvUbUA5PGpC4AGZhg46QPyUtEAbYpJnN0jzmg==",
+    "bucket": "sample-bucket2",
+    "ATOMIC_REQUESTS": false,
+    "AUTOCOMMIT": true,
+    "ENGINE": "django.db.backends.dummy",
+    "CONN_MAX_AGE": 0,
+    "CONN_HEALTH_CHECKS": false,
+    "OPTIONS": {},
+    "TIME_ZONE": null,
+    "NAME": "",
+    "USER": "",
+    "PASSWORD": "",
+    "HOST": "",
+    "PORT": "",
+    "TEST": {
+      "CHARSET": null,
+      "COLLATION": null,
+      "MIGRATE": true,
+      "MIRROR": null,
+      "NAME": null
+    }
+  }
+}

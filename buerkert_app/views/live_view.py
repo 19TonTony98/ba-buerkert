@@ -4,7 +4,8 @@ from django.contrib import messages
 from django.shortcuts import render
 from django.views import View
 
-from buerkert_app.helpers import get_opcua_data, is_container_running
+from buerkert_app.utils.collector_utils import is_container_running
+from buerkert_app.utils.utils import get_opcua_data
 
 
 class LiveView(View):
