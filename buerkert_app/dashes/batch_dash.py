@@ -103,4 +103,4 @@ class BatchDash:
             label = "Zeige Tabelle" if is_open else "Verberge Tabelle"
             if n:
                 return not is_open, label
-            return is_open, label
+            return is_open, "Zeige Tabelle"
