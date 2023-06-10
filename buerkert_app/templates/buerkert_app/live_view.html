@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
+{% load static %}
 
 {% block content %}
     <div class="card">
@@ -16,7 +17,11 @@
                 {% endif %}</h5>
         </div>
         <div class="card-body" id="body">
-        <div hx-get="{% url 'live' %}" hx-trigger="every 2s"></div>
+            <div class="d-flex flex-wrap-reverse">
+                <img style="max-width: 100%; height: auto; @media (max-width: 500px)}"
+                        src="{% static 'buerkert_app/img/buerkert_funktionsschema.jpg' %}" alt="Funktionsschema">
+                <div hx-get="{% url 'live' %}" hx-trigger="load, every 2s"></div>
+            </div>
         </div>
     </div>
 {% endblock %}

@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.views import View
 
 from buerkert_app.utils.collector_utils import is_container_running
-from buerkert_app.utils.utils import get_opcua_data
+from buerkert_app.utils.utils import get_opcua_data, ident_to_io, io_to_displayname
 
 
 class LiveView(View):
@@ -17,8 +17,13 @@ class LiveView(View):
             loop = asyncio.get_event_loop()
             values, opc_messages = loop.run_until_complete(get_opcua_data())
             loop.close()
-            context = {"values": values, "opc_messages": opc_messages}
+            io_list = [{'sps_port': ident_to_io(**value), 'value': value['value']} for value in values]
+            io_list = list(filter(lambda x: x.get('sps_port'), io_list))
+            display_list = [{**io_to_displayname(**value), 'value': value['value']} for value in io_list]
+            display_list = sorted(display_list, key=lambda x: x['sps_port'])
+            context = {"values": display_list, "opc_messages": opc_messages}
             return render(request, "snippets/data_values.html", context)
+
         context = {}
         batch = None
         running = None

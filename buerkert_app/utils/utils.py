@@ -47,17 +47,17 @@ def get_io_ident():
         return json.load(fd)
 
 
-def io_to_ident(io):
+def io_to_ident(io, **kwargs):
     io_list = get_io_ident()
     for row in io_list:
         if io == row['sps_port']:
             return row['namespace_index'], row['identifier']
 
 
-def ident_to_io(obj, ident):
+def ident_to_io(namespace_index, identifier, **kwargs):
     io_list = get_io_ident()
     for row in io_list:
-        if obj == row['namespace_index'] and ident == row['identifier']:
+        if namespace_index == row['namespace_index'] and identifier == row['identifier']:
             return row['sps_port']
 
 
@@ -71,6 +71,14 @@ def get_conf_list():
 def save_conf_list(conf_list):
     with open(SPS_CONF, "w") as fd:
         json.dump(conf_list, fd, indent=1)
+
+
+def io_to_displayname(sps_port, **kwargs):
+    conf_list = get_conf_list()
+    if disp_list := list(filter(lambda conf: conf.get('sps_port') == sps_port, conf_list)):
+        return disp_list[0]
+    else:
+        return {}
 
 
 def create_sps_conf():

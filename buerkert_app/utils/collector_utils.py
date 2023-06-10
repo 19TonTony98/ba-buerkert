@@ -1,11 +1,8 @@
 import datetime
 import json
-import os
 import warnings
 
 import docker
-from background_task import background
-from background_task.models import Task
 from influxdb_client.client.warnings import MissingPivotFunction
 
 from buerkert import settings

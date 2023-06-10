@@ -4,6 +4,6 @@
 {% endfor %}
 <ul>
      {% for node in values %}
-     <li>{{ node.variable_name }}: {{ node.value |floatformat:-2 }}</li>
+     <li>{{ node.sps_port }} | {{ node.display }} ({{ node.measurement }}): {{ node.value |floatformat:-2 }}</li>
      {% endfor %}
 </ul>

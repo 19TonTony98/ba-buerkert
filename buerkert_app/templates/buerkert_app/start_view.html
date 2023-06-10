@@ -9,7 +9,7 @@
         </div>
         <div class="card-body" id="body">
         <div class="d-flex flex-wrap justify-content-between">
-            <div class="p-2">
+            <div class="p-2 pt-3 flex-grow-1">
                 <form method="post">
                 {% if batch and running %}
                     <div class="mb-3">
@@ -40,18 +40,16 @@
                     SPS Einstellungen
                 </button>
 
-                <div class="collapse" id="collapseExample">
+                <div class="collapse pt-2" id="collapseExample">
                   <div class="card card-body">
                     {{ formset.management_form }}
                     {% for form in formset %}
                         {% bootstrap_form form %}
                     {% endfor %}
-                  <button class="btn btn-primary" formaction="{% url 'start' %}?settings=save">Save</button>
+                  <button class="btn btn-primary" formaction="{% url 'start' %}?settings=save">Speichern</button>
                   </div>
                 </div>
             </form>
-            </div>
-            <div class="p-2">
             </div>
             <div class="p-2">
                 <div class="card">
