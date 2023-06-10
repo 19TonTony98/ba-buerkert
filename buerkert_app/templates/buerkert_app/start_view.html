@@ -44,9 +44,20 @@
                   <div class="card card-body">
                     {{ formset.management_form }}
                     {% for form in formset %}
-                        {% bootstrap_form form %}
+                      <div class="container border-bottom">
+                          <div class="row">
+                            <div class="py-2">{% bootstrap_field form.use wrapper_class="form-switch"%}</div>
+                          </div>
+                          <div class="row row-cols-auto px-3">
+                              <div class="col d-flex flex-wrap">
+                                  <div class="px-2">{% bootstrap_field form.sps_port %}</div>
+                                  <div class="px-2">{% bootstrap_field form.display %}</div>
+                                  <div class="px-2">{% bootstrap_field form.measurement %}</div>
+                              </div>
+                          </div>
+                      </div>
                     {% endfor %}
-                  <button class="btn btn-primary" formaction="{% url 'start' %}?settings=save">Speichern</button>
+                  <button class="btn btn-primary pt-1" formaction="{% url 'start' %}?settings=save">Speichern</button>
                   </div>
                 </div>
             </form>

@@ -89,7 +89,7 @@ class BatchForm(forms.Form):
 
 class ConfForm(forms.Form):
     # ToDo ChoiceFiel for given sps port
-    use = forms.BooleanField(label=" ", widget=forms.CheckboxInput, required=False)
+    use = forms.BooleanField(label="Aktiviert", widget=forms.CheckboxInput, required=False)
     sps_port = forms.CharField(label="SPS I/O PORT")
     display = forms.CharField(label="Anzeige Name")
     measurement = forms.CharField(label="Einheit")
