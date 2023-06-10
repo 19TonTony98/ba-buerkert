@@ -6,7 +6,7 @@ import docker
 from influxdb_client.client.warnings import MissingPivotFunction
 
 from buerkert import settings
-from buerkert.settings import DATE_FORMAT
+from buerkert.settings import DATE_FORMAT, COLLECTOR_CONF
 from buerkert_app.utils.utils import get_io_ident
 
 warnings.simplefilter("ignore", MissingPivotFunction)
@@ -17,7 +17,7 @@ def create_config_file(batch_dict, sps_list):
     sps_list = list(filter(lambda sps: sps.pop('use', False), sps_list))
     data = {"batch_id": batch_id, "sps_list": sps_list, "io_ident": get_io_ident(), "url": settings.OPCUA_URL,
             "db": settings.DATABASES['influx']}
-    with open("/home/app/conf/conf.json", "w") as fd:
+    with open(COLLECTOR_CONF, "w") as fd:
         json.dump(data, fd, indent=2)
 
 
@@ -25,7 +25,7 @@ def create_container(batch_id, start, end):
     client = docker.DockerClient(base_url='unix://var/run/docker.sock')
     if not client.images.list(name="influxdb_collector:dev"):
         print(f"build influxdb_collector")
-        client.images.build(path="/home/app/collector", tag="influxdb_collector:dev")
+        client.images.build(path="/home/app/influxdb_collector", tag="influxdb_collector:dev")
 
     labels = {"batch_id": batch_id, "start": start.strftime(DATE_FORMAT),
               "end": end.strftime(DATE_FORMAT) if end else None}
@@ -37,8 +37,8 @@ def start_container(batch_dict):
     client = docker.DockerClient(base_url='unix://var/run/docker.sock')
     client.containers.run(image="influxdb_collector:dev", name=f"influxdb_collector_{batch_dict['batch_id']}",
                           network_mode='host', labels=batch_dict, auto_remove=True, detach=True,
-                          volumes=['collector_conf:/home/app/conf',
-                                   '/var/run/:/var/run/'])
+                          volumes=['/var/run/:/var/run/',
+                                   'shared_res:/home/app/influxdb_collector/res'])
     print(f"startet for {batch_dict['batch_id']}, stops at {batch_dict['end'] if batch_dict['end'] else 'never'}")
 
 

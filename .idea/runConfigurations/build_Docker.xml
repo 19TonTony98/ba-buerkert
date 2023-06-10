@@ -12,7 +12,7 @@
             </DockerPortBindingImpl>
           </list>
         </option>
-        <option name="commandLineOptions" value="--net=influxdb-telegraf-net" />
+        <option name="commandLineOptions" value="--net=influxdb-net" />
         <option name="showCommandPreview" value="true" />
         <option name="sourceFilePath" value="Dockerfile" />
         <option name="volumeBindings">
@@ -22,8 +22,12 @@
               <option name="hostPath" value="/var/run/" />
             </DockerVolumeBindingImpl>
             <DockerVolumeBindingImpl>
-              <option name="containerPath" value="/home/app/conf/" />
-              <option name="hostPath" value="collector_conf" />
+              <option name="containerPath" value="/home/app/webapp/res/" />
+              <option name="hostPath" value="shared_res" />
+            </DockerVolumeBindingImpl>
+            <DockerVolumeBindingImpl>
+              <option name="containerPath" value="/home/app/influxdb_collector/" />
+              <option name="hostPath" value="influxdb_collector" />
             </DockerVolumeBindingImpl>
           </list>
         </option>

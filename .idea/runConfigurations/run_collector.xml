@@ -9,12 +9,12 @@
         <option name="volumeBindings">
           <list>
             <DockerVolumeBindingImpl>
-              <option name="containerPath" value="/home/app/conf" />
-              <option name="hostPath" value="collector_conf" />
-            </DockerVolumeBindingImpl>
-            <DockerVolumeBindingImpl>
               <option name="containerPath" value="/var/run/" />
               <option name="hostPath" value="/var/run/" />
+            </DockerVolumeBindingImpl>
+            <DockerVolumeBindingImpl>
+              <option name="containerPath" value="/home/app/collector/res" />
+              <option name="hostPath" value="shared_res" />
             </DockerVolumeBindingImpl>
           </list>
         </option>

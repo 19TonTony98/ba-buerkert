@@ -1,12 +1,50 @@
 version: '3.8'
 
 services:
-  web:
-    build: ./ba-buerkert
-    command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - ./ba-buerkert/:/usr/src/ba-buerkert/
+  db:
+    image: influxdb:latest
     ports:
-      - 8000:8000
-    env_file:
-      - ./.env.dev
+      - "8086:8086"
+    networks:
+      - influxdb-net
+    volumes:
+      - type: bind
+        source: /home/db/influxdb2
+        target: /var/lib/influxdb2
+    depends_on:
+      - influxdb_net
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    networks:
+      - influxdb-net
+    volumes:
+      - /var/run/:/var/run/
+      - shared_res:/home/app/webapp/res/
+      - influxdb_collector:/home/app/influxdb_collector/
+    depends_on:
+      - shared_res
+      - influxdb_collector
+      - influxdb_net
+
+volumes:
+  shared_res:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/app/res
+  influxdb_collector:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/app/influxdb_collector
+
+networks:
+  influxdb-net:
+    driver: bridge
+

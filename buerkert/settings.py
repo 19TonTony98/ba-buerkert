@@ -92,7 +92,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     },
     'influx': {
-        "url": "http://172.18.0.2:8086",
+        "url": "http://172.19.0.2:8086",
         "org": "HSWT",
         "token": "BrqgG5LBCVEKB584i5UthgbfBpapJw6FIadUV4-iz8fthCMkKbvUbUA5PGpC4AGZhg46QPyUtEAbYpJnN0jzmg==",
         "bucket": "sample-bucket2"
@@ -153,5 +153,7 @@ BACKGROUND_TASK_RUN_ASYNC = True
 IO_IDENT = "res/io_ident.json"
 
 SPS_CONF = "res/last_sps_conf.json"
+
+COLLECTOR_CONF = "res/collector_conf.json"
 
 DATE_FORMAT = "%Y-%m-%dT%H:%M:%SZ"

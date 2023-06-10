@@ -98,7 +98,7 @@ def collector(batch_id, sps_list, io_ident, url, db):
 
 
 if __name__ == "__main__":
-    with open("/home/app/conf/conf.json", "r") as fd:
+    with open("res/collector_conf.json", "r") as fd:
         data = json.load(fd)
     print(f"container {data['batch_id']} startet and idle")
     collector(**data)
