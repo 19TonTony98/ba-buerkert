@@ -1,4 +1,4 @@
-version: '3.8'
+﻿version: '3.9'
 
 services:
   db:
@@ -6,30 +6,21 @@ services:
     ports:
       - "8086:8086"
     networks:
-      - influxdb-net
+      - influxdb_net
     volumes:
       - type: bind
         source: /home/db/influxdb2
         target: /var/lib/influxdb2
-    depends_on:
-      - influxdb_net
   web:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: .
     ports:
       - "8000:8000"
     networks:
-      - influxdb-net
+      - influxdb_net
     volumes:
       - /var/run/:/var/run/
       - shared_res:/home/app/webapp/res/
       - influxdb_collector:/home/app/influxdb_collector/
-    depends_on:
-      - shared_res
-      - influxdb_collector
-      - influxdb_net
-
 volumes:
   shared_res:
     driver: local
@@ -43,8 +34,7 @@ volumes:
       type: none
       o: bind
       device: /home/app/influxdb_collector
-
 networks:
-  influxdb-net:
+  influxdb_net:
     driver: bridge
 
