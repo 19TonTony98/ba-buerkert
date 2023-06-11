@@ -92,7 +92,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     },
     'influx': {
-        "url": "http://172.18.0.3:8086",
+        "url": "http://172.18.0.2:8086",
         "org": "HSWT",
         "token": "BrqgG5LBCVEKB584i5UthgbfBpapJw6FIadUV4-iz8fthCMkKbvUbUA5PGpC4AGZhg46QPyUtEAbYpJnN0jzmg==",
         "bucket": "sample-bucket2"
