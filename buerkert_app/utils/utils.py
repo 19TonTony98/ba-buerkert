@@ -61,38 +61,42 @@ def ident_to_io(namespace_index, identifier, **kwargs):
             return row['sps_port']
 
 
-def get_conf_list():
-    if not os.path.isfile(SPS_CONF):
-        create_sps_conf()
-    with open(SPS_CONF, "r") as fd:
-        return json.load(fd)
-
-
 def save_conf_list(conf_list):
     with open(SPS_CONF, "w") as fd:
         json.dump(conf_list, fd, indent=1)
 
 
 def io_to_displayname(sps_port, **kwargs):
-    conf_list = get_conf_list()
+    conf_list = get_sps_conf_list()
     if disp_list := list(filter(lambda conf: conf.get('sps_port') == sps_port, conf_list)):
         return disp_list[0]
     else:
         return {}
 
 
-def create_sps_conf():
+def get_sps_conf_list():
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     loop = asyncio.get_event_loop()
     values, _ = loop.run_until_complete(get_opcua_data())
     loop.close()
+
+    if os.path.isfile(SPS_CONF):
+        with open(SPS_CONF, "r") as fd:
+            last_conf = json.load(fd)
+    else:
+        last_conf = []
     sps_conf = []
+
     for value in values:
         if not (ident := ident_to_io(value['namespace_index'], value['identifier'])):
             continue
-        sps_conf.append({"use": False, "sps_port": ident, "display": "", "measurement": ""})
+        if last_confs := list(filter(lambda conf: conf.get('sps_port') == ident, last_conf)):
+            sps_conf.extend(last_confs)
+        else:
+            sps_conf.append({"use": False, "sps_port": ident, "display": "", "measurement": ""})
     save_conf_list(sps_conf)
+    return sps_conf
 
 
 def get_batch_ids(max_ids=1):
