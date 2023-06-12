@@ -31,6 +31,7 @@ class BatchDash:
                                                export_format='xlsx',
                                                page_size=page_size,
                                                columns=[{"name": "Sensor-ID", "id": "sensor_id"},
+                                                        {"name": "Sensor-Name", "id": "display"},
                                                         {"name": "Field", "id": "_field"},
                                                         {"name": "Time", "id": "_time"},
                                                         {"name": "Value", "id": "_value"}]),

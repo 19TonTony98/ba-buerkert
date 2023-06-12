@@ -76,6 +76,14 @@ def save_conf_list(conf_list):
         json.dump(conf_list, fd, indent=1)
 
 
+def io_to_display(sps_port, **kwargs):
+    conf_list = get_sps_conf_list()
+    if disp_list := list(filter(lambda conf: conf.get('sps_port') == sps_port, conf_list)):
+        return disp_list[0]
+    else:
+        return {}
+
+
 def ios_to_displays(io_list, **kwargs):
     conf_list = get_sps_conf_list()
     results = []
