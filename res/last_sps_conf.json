@@ -3,48 +3,48 @@
   "use": true,
   "sps_port": "I-1",
   "display": "VAR1",
-  "measurement": "Temperatur"
+  "unit": "PRESSURE"
  },
  {
   "use": true,
   "sps_port": "I-2",
   "display": "VAR2",
-  "measurement": "Temperatur"
+  "unit": "PRESSURE"
  },
  {
   "use": true,
   "sps_port": "I-3",
   "display": "VAR3",
-  "measurement": "Druck"
+  "unit": "PRESSURE"
  },
  {
   "use": false,
   "sps_port": "I-4",
   "display": "VAR4",
-  "measurement": "Temperatur"
+  "unit": "PRESSURE"
  },
  {
   "use": true,
   "sps_port": "V-1",
   "display": "VAR7",
-  "measurement": "Druck"
+  "unit": "PRESSURE"
  },
  {
   "use": true,
   "sps_port": "V-2",
   "display": "VAR8",
-  "measurement": "Druck"
+  "unit": "PRESSURE"
  },
  {
   "use": false,
   "sps_port": "I-5",
   "display": "VAR5",
-  "measurement": "Temperatur"
+  "unit": "PRESSURE"
  },
  {
   "use": false,
   "sps_port": "I-6",
   "display": "VAR6",
-  "measurement": "Druck"
+  "unit": "PRESSURE"
  }
 ]

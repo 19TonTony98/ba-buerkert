@@ -94,7 +94,7 @@ def get_sps_conf_list():
         if last_confs := list(filter(lambda conf: conf.get('sps_port') == ident, last_conf)):
             sps_conf.extend(last_confs)
         else:
-            sps_conf.append({"use": False, "sps_port": ident, "display": "", "measurement": ""})
+            sps_conf.append({"use": False, "sps_port": ident, "display": "", "unit": ""})
     save_conf_list(sps_conf)
     return sps_conf
 

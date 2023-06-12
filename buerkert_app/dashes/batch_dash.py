@@ -6,6 +6,8 @@ import plotly.graph_objects as go
 from dash import dcc, html, Input, Output, dash_table, State
 from django_plotly_dash import DjangoDash
 
+from res.units import Units
+
 
 class BatchDash:
     def __init__(self, name, df, check_col, x, y, color):
@@ -16,7 +18,7 @@ class BatchDash:
         app.layout = html.Div([
             dcc.Checklist(
                 id="checklist",
-                options=df[check_col].unique(),
+                options=units_resolve(df[check_col].unique()),
                 value=df[check_col].unique()[:1],
                 inline=True,
                 labelStyle={"margin": "10px"}
@@ -66,12 +68,12 @@ class BatchDash:
             fig = go.Figure()
             layout_dict = {}
             for i, value in enumerate(values, 1):
-                v_name = value if len(values) > 1 else ""
+                v_name = f"({getattr(Units, value).value[0]})" if len(values) > 1 else ""
                 for group_name, group_df in df.loc[df[check_col] == value].groupby(color):
                     fig.add_trace(
-                        go.Scatter(x=group_df[x], y=group_df[y], name=f"{group_name}({v_name})", yaxis=f"y{i}"))
+                        go.Scatter(x=group_df[x], y=group_df[y], name=f"{group_name}{v_name}", yaxis=f"y{i}"))
                 f_col = px.colors.sequential.Rainbow[i]
-                layout_dict[f"yaxis{i}"] = {"title": v_name,
+                layout_dict[f"yaxis{i}"] = {"title": getattr(Units, value).value[1],
                                             "titlefont": {"color": f_col},
                                             "tickfont": {"color": f_col},
                                             "side": "left" if i % 2 else "right", }
@@ -104,3 +106,7 @@ class BatchDash:
             if n:
                 return not is_open, label
             return is_open, "Zeige Tabelle"
+
+
+def units_resolve(units):
+    return {getattr(Units, unit).name: getattr(Units, unit).value[0] for unit in units}

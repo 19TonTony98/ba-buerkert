@@ -77,7 +77,7 @@ def collector(batch_id, sps_list, io_ident, url, db):
                     else:
                         display_name = display_name[0]
                     tags = {"display": display_name['display'], "sensor_id": sps_port}
-                    fields = {display_name['measurement']: value['value']}
+                    fields = {display_name['unit']: value['value']}
                     points.append({"measurement": int(batch_id), "tags": tags, "fields": fields})
 
                 with InfluxDBClient(**db) as influxdb_client:

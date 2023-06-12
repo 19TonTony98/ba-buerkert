@@ -11,6 +11,7 @@ from buerkert.settings import DATE_FORMAT
 from buerkert_app.utils.collector_utils import stop_container, is_container_running, create_container, \
     create_config_file, start_container
 from buerkert_app.utils.utils import get_sps_conf_list, save_conf_list, get_batch_ids
+from res.units import Units
 
 
 class StartView(View):
@@ -91,7 +92,7 @@ class ConfForm(forms.Form):
     use = forms.BooleanField(label="Aktiviert", widget=forms.CheckboxInput, required=False)
     sps_port = forms.CharField(label="SPS I/O PORT")
     display = forms.CharField(label="Anzeige Name")
-    measurement = forms.CharField(label="Einheit")
+    unit = forms.ChoiceField(label="Einheit", choices=[x.choice() for x in Units])
 
 
 ConfFormSet = formset_factory(ConfForm, extra=0)
