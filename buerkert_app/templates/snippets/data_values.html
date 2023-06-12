@@ -2,8 +2,12 @@
 {% for message in opc_messages %}
     {% bootstrap_alert message alert_type='danger' %}
 {% endfor %}
-<ul>
-     {% for node in values %}
-     <li>{{ node.sps_port }} | {{ node.display }} ({{ node.measurement }}): {{ node.value |floatformat:-2 }}</li>
-     {% endfor %}
-</ul>
+
+{% for node in values %}
+    <tr>
+      <th scope="row">{{ node.sps_port }}</th>
+      <td>{{ node.display }}</td>
+      <td>{{ node.measurement }}</td>
+      <td>{{ node.value |floatformat:-2 }}</td>
+    </tr>
+{% endfor %}

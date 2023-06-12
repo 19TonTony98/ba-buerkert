@@ -104,9 +104,10 @@ def get_batch_ids(max_ids=1):
         query_api = client.query_api()
         query = f'''
         from(bucket: "{DATABASES["influx"]["bucket"]}")
-          |> range(start: 0)
-          |> filter(fn: (r) => r._measurement =~ /^[0-9]+$/)
-          |> group()
+          |> range(start: -6mo)
+          |> group(columns: ["_measurement"])
+          |> min(column: "_time")
+          |> sort(columns: ["_time"], desc: true)
         '''
         if (df := query_api.query_data_frame(query)).empty:
             raise InfluxDBError(message="No Data found")
