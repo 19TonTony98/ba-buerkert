@@ -21,6 +21,13 @@
                 <div class="p-3">
                     <img style="max-width: 100%; height: auto; @media (max-width: 500px)"
                         src="{% static 'buerkert_app/img/buerkert_funktionsschema.jpg' %}" alt="Funktionsschema">
+                    <form method="post" class="pt-3" enctype="multipart/form-data">{% csrf_token %}
+                        {% bootstrap_label form.file.label %}
+                        <div class="d-flex align-items-start flex-wrap">
+                            {% bootstrap_field form.file show_label=False%}
+                            <div class="px-2">{% bootstrap_button "Hochladen" type="submit"%}</div>
+                        </div>
+                    </form>
                 </div>
                 <div>
                   <table class="table">
