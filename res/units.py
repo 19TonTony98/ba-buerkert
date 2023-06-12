@@ -8,6 +8,7 @@ class Units(Enum):
     LEVEL = "Füllstand", "l"
     PH = "ph-Wert", ""
     ANGLE = "Winkel", "°"
+    STATE = "Zustand", ""
 
     def choice(self):
         return self.name, f"{self.value[0]} [{self.value[1]}]"

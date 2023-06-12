@@ -1,11 +1,14 @@
 [
-{"sps_port": "I-1", "node_name": "MyObject", "variable_name": "MyVariable1", "namespace_index": 2, "identifier": 3},
-{"sps_port": "I-2", "node_name": "MyObject", "variable_name": "MyVariable2", "namespace_index": 2, "identifier": 4},
-{"sps_port": "I-3", "node_name": "MyObject", "variable_name": "MyVariable3", "namespace_index": 2, "identifier": 5},
-{"sps_port": "I-4", "node_name": "MyObject", "variable_name": "MyVariable4", "namespace_index": 2, "identifier": 6},
-{"sps_port": "V-1", "node_name": "MyObject", "variable_name": "MyVariable5", "namespace_index": 2, "identifier": 7},
-{"sps_port": "V-2", "node_name": "MyObject2", "variable_name": "MyVariable-1", "namespace_index": 3, "identifier": 2},
-{"sps_port": "I-5", "node_name": "MyObject2", "variable_name": "MyVariable-2", "namespace_index": 3, "identifier": 3},
-{"sps_port": "I-6", "node_name": "MyObject2", "variable_name": "MyVariable-3", "namespace_index": 3, "identifier": 4},
-{"sps_port": "N-6", "node_name": "MyObject2", "variable_name": "MyVariable-3", "namespace_index": 3, "identifier": 10}
+{"sps_port": "I-1", "node_name": "Druck", "variable_name": "MyVariable1", "namespace_index": 2, "identifier": 5},
+{"sps_port": "I-2", "node_name": "Druck", "variable_name": "MyVariable2", "namespace_index": 2, "identifier": 6},
+{"sps_port": "I-3", "node_name": "Druck", "variable_name": "MyVariable3", "namespace_index": 2, "identifier": 7},
+{"sps_port": "I-4", "node_name": "Temperatur", "variable_name": "MyVariable4", "namespace_index": 2, "identifier": 8},
+{"sps_port": "I-5", "node_name": "Temperatur", "variable_name": "MyVariable5", "namespace_index": 2, "identifier": 9},
+{"sps_port": "I-6", "node_name": "Temperatur", "variable_name": "MyVariable6", "namespace_index": 2, "identifier": 10},
+{"sps_port": "V-1", "node_name": "Ventil", "variable_name": "MyVariable7", "namespace_index": 2, "identifier": 11},
+{"sps_port": "V-2", "node_name": "Ventil", "variable_name": "MyVariable8", "namespace_index": 2, "identifier": 12},
+{"sps_port": "V-3", "node_name": "Ventil", "variable_name": "MyVariable9", "namespace_index": 2, "identifier": 13},
+{"sps_port": "V-4", "node_name": "Ventil2", "variable_name": "MyVariable10", "namespace_index": 2, "identifier": 14},
+{"sps_port": "V-5", "node_name": "Ventil2", "variable_name": "MyVariable11", "namespace_index": 2, "identifier": 15},
+{"sps_port": "V-6", "node_name": "Ventil2", "variable_name": "MyVariable12", "namespace_index": 2, "identifier": 16}
 ]

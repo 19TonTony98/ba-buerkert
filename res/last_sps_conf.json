@@ -2,49 +2,73 @@
  {
   "use": true,
   "sps_port": "I-1",
-  "display": "VAR1",
+  "display": "Zulauf",
   "unit": "PRESSURE"
  },
  {
   "use": true,
   "sps_port": "I-2",
-  "display": "VAR2",
+  "display": "Beh\u00f6lter",
   "unit": "PRESSURE"
  },
  {
   "use": true,
   "sps_port": "I-3",
-  "display": "VAR3",
+  "display": "Ablauf",
   "unit": "PRESSURE"
  },
  {
-  "use": false,
+  "use": true,
   "sps_port": "I-4",
-  "display": "VAR4",
-  "unit": "PRESSURE"
+  "display": "Zulauf",
+  "unit": "TEMPERATURE"
+ },
+ {
+  "use": true,
+  "sps_port": "I-5",
+  "display": "Beh\u00e4lter",
+  "unit": "TEMPERATURE"
+ },
+ {
+  "use": true,
+  "sps_port": "I-6",
+  "display": "Ablauf",
+  "unit": "TEMPERATURE"
  },
  {
   "use": true,
   "sps_port": "V-1",
-  "display": "VAR7",
-  "unit": "PRESSURE"
+  "display": "Zulauf",
+  "unit": "ANGLE"
  },
  {
   "use": true,
   "sps_port": "V-2",
-  "display": "VAR8",
-  "unit": "PRESSURE"
+  "display": "Ablauf",
+  "unit": "ANGLE"
+ },
+ {
+  "use": true,
+  "sps_port": "V-3",
+  "display": "Suspension",
+  "unit": "ANGLE"
+ },
+ {
+  "use": true,
+  "sps_port": "V-4",
+  "display": "Not1",
+  "unit": "STATE"
  },
  {
   "use": false,
-  "sps_port": "I-5",
-  "display": "VAR5",
-  "unit": "PRESSURE"
+  "sps_port": "V-5",
+  "display": "Not2",
+  "unit": "STATE"
  },
  {
   "use": false,
-  "sps_port": "I-6",
-  "display": "VAR6",
-  "unit": "PRESSURE"
+  "sps_port": "V-6",
+  "display": "Not3",
+  "unit": "STATE"
  }
 ]
