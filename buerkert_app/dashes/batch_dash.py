@@ -73,6 +73,7 @@ class BatchDash:
                 for group_name, group_df in df.loc[df[check_col] == value].groupby(color):
                     fig.add_trace(
                         go.Scatter(x=group_df[x], y=group_df[y], name=f"{group_name}{v_name}", yaxis=f"y{i}"))
+                    fig['data'][-1]['showlegend'] = True
                 f_col = px.colors.sequential.Rainbow[i]
                 layout_dict[f"yaxis{i}"] = {"title": getattr(Units, value).value[1],
                                             "titlefont": {"color": f_col},
