@@ -1,4 +1,5 @@
 {% load django_bootstrap5 %}
+{% load tag_utils %}
 {% for message in opc_messages %}
     {% bootstrap_alert message alert_type='danger' %}
 {% endfor %}
@@ -7,7 +8,8 @@
     <tr>
       <th scope="row">{{ node.sps_port }}</th>
       <td>{{ node.display }}</td>
-      <td>{{ node.unit }}</td>
-      <td>{{ node.value |floatformat:-2 }}</td>
+        {% resolve_unit node.unit as result%}
+      <td>{{ result.display }}</td>
+      <td>{{ node.value |floatformat:-2 }} {{ result.unit }}</td>
     </tr>
 {% endfor %}
