@@ -149,3 +149,10 @@
     background-color: var(--color-background-primary-strong);
     border-color: var(--color-background-primary-strong);
 }
+
+.dash-graph {
+    border-bottom: 2px solid;
+    border-bottom-color: var(--color-background-secondary-muted);
+    overflow: auto;
+    resize: vertical;
+}

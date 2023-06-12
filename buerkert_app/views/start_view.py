@@ -63,7 +63,6 @@ class StartView(View):
             save_conf_list(formset.cleaned_data)
             messages.success(request, "Einstellungen gespeichert")
             try:
-                # ToDo telegraf conf
                 create_config_file(form.cleaned_data, formset.cleaned_data)
                 created, _ = create_container(**form.cleaned_data)
                 if not created:

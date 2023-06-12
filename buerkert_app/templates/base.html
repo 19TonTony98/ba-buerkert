@@ -32,15 +32,15 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link mx-1 px-3 {% if request.path in live_url %} active {% endif %}" href="{% url 'live' %}">Live</a>
+          <a class="nav-link mx-1 px-3 {% if request.path in start_url %} active {% endif %}" href="{% url 'start' %}">Start</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link mx-1 px-3 {% if request.path in start_url %} active {% endif %}" href="{% url 'start' %}">Start</a>
+          <a class="nav-link mx-1 px-3 {% if request.path in live_url %} active {% endif %}" href="{% url 'live' %}">Live</a>
         </li>
       </ul>
       <form class="d-flex mb-0" role="search" action="{% url 'index' %}" style="">
         <input class="form-control me-2" type="search" placeholder="Batch-ID" aria-label="Batch-ID" name="batch_id">
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        <button class="btn btn-outline-success" type="submit">Suchen</button>
       </form>
     </div>
   </div>

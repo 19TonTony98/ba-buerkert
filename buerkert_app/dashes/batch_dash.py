@@ -26,7 +26,7 @@ class BatchDash:
             dbc.Spinner(dcc.Graph(id="graph"), fullscreen=True, color="success"),
             html.Div([dbc.Button("Zeige Tabelle", id="collapse_table", className="me-md-2", n_clicks=0),
                       dbc.Button("Export Tabelle", id="export_table", className="me-md-2")],
-                     className="d-grid gap-2 d-md-flex justify-content-md-end mb-2"),
+                     className="d-grid gap-2 d-md-flex justify-content-md-end mb-2 pt-2"),
             dbc.Collapse([dash_table.DataTable(df.to_dict('records'), id='batch_table', filter_action='native',
                                                export_format='xlsx',
                                                page_size=page_size,
