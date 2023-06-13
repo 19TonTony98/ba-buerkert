@@ -8,7 +8,7 @@
  {
   "use": true,
   "sps_port": "I-2",
-  "display": "Beh\u00f6lter",
+  "display": "Beh\u00e4lter",
   "unit": "PRESSURE"
  },
  {
@@ -56,19 +56,19 @@
  {
   "use": true,
   "sps_port": "V-4",
-  "display": "Not1",
+  "display": "\u00dcberdruck1",
   "unit": "STATE"
  },
  {
   "use": false,
   "sps_port": "V-5",
-  "display": "Not2",
+  "display": "\u00dcberdruck2",
   "unit": "STATE"
  },
  {
   "use": false,
   "sps_port": "V-6",
-  "display": "Not3",
+  "display": "\u00dcberdruck3",
   "unit": "STATE"
  }
 ]

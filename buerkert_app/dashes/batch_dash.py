@@ -24,7 +24,7 @@ class BatchDash:
         check_col = "_field"
         x = "_time"
         y = "_value"
-        color = 'sensor_id'
+        group = ['sensor_id', 'display']
 
         if not (size := self.get_influx_size()):
             raise InfluxDBError(message=f"Keine Daten mit der Batch-ID {self.batch_id} gefunden")
@@ -99,9 +99,9 @@ class BatchDash:
             layout_dict = {}
             for i, value in enumerate(values, 1):
                 v_name = f"({getattr(Units, value).value[0]})" if len(values) > 1 else ""
-                for group_name, group_df in df.loc[df[check_col] == value].groupby(color):
+                for (_, sensor_name), group_df in df.loc[df[check_col] == value].groupby(group):
                     fig.add_trace(
-                        go.Scatter(x=group_df[x], y=group_df[y], name=f"{group_name}{v_name}", yaxis=f"y{i}"))
+                        go.Scatter(x=group_df[x], y=group_df[y], name=f"{sensor_name}{v_name}", yaxis=f"y{i}"))
                     fig['data'][-1]['showlegend'] = True
                 f_col = px.colors.sequential.Rainbow[i]
                 layout_dict[f"yaxis{i}"] = {"title": getattr(Units, value).value[1],
