@@ -22,11 +22,17 @@
                     <img style="max-width: 100%; height: auto; @media (max-width: 500px)"
                         src="{% static 'buerkert_app/img/buerkert_funktionsschema.jpg' %}" alt="Funktionsschema">
                     <form method="post" class="pt-3" enctype="multipart/form-data">{% csrf_token %}
-                        {% bootstrap_label form.file.label %}
-                        <div class="d-flex align-items-start flex-wrap">
-                            {% bootstrap_field form.file show_label=False%}
-                            <div class="px-2">{% bootstrap_button "Hochladen" type="submit"%}</div>
-                        </div>
+                          <a data-bs-toggle="collapse" href="#collapseFileForm" role="button" aria-expanded="false"
+                             aria-controls="collapseFileForm">{{ form.file.label }}</a>
+                          <div class="collapse" id="collapseFileForm">
+                              <div class="card card-body">
+                                <div class="d-flex align-items-start flex-wrap pt-3">
+                                    {% bootstrap_field form.file show_label=False%}
+                                    <div class="px-2">{% bootstrap_button "Hochladen" type="submit"%}</div>
+                                </div>
+                              </div>
+                          </div>
+
                     </form>
                 </div>
                 <div>
