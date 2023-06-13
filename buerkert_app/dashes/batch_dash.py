@@ -21,14 +21,18 @@ class BatchDash:
     def __init__(self, name, request, batch_id):
         self.request = request
         self.batch_id = batch_id
-        if not (size := self.get_influx_size()):
-            raise InfluxDBError(message=f"Keine Daten mit der Batch-ID {self.batch_id} gefunden")
-        slider_value = min(((len(RESOLUTION_RANGE) - 1), int(size/7500)))
-        df = self.get_influx_df(RESOLUTION_RANGE[slider_value])
         check_col = "_field"
         x = "_time"
         y = "_value"
         color = 'sensor_id'
+
+        if not (size := self.get_influx_size()):
+            raise InfluxDBError(message=f"Keine Daten mit der Batch-ID {self.batch_id} gefunden")
+        slider_value = min(((len(RESOLUTION_RANGE) - 1), int(size/7500)))
+        df = self.get_influx_df(RESOLUTION_RANGE[slider_value])
+        tb = df.copy()
+        tb["unit"] = tb.apply(lambda row: getattr(Units, row['_field']).value[0], axis=1)
+
         app = DjangoDash(name, external_stylesheets=[dbc.themes.BOOTSTRAP])  # replaces dash.Dash
         app.css.append_css({"external_url": "/static/buerkert_app/css/main.css"})
         page_size = 100
@@ -50,15 +54,15 @@ class BatchDash:
             html.Div([dbc.Button("Zeige Tabelle", id="collapse_table", className="me-md-2", n_clicks=0),
                       dbc.Button("Export Tabelle", id="export_table", className="me-md-2")],
                      className="d-grid gap-2 d-md-flex justify-content-md-end mb-2 pt-2"),
-            dbc.Collapse([dash_table.DataTable(df.to_dict('records'), id='batch_table', filter_action='native',
+            dbc.Collapse([dash_table.DataTable(tb.to_dict('records'), id='batch_table', filter_action='native',
                                                export_format='xlsx',
                                                page_size=page_size,
                                                columns=[{"name": "Sensor-ID", "id": "sensor_id"},
                                                         {"name": "Sensor-Name", "id": "display"},
-                                                        {"name": "Field", "id": "_field"},
-                                                        {"name": "Time", "id": "_time"},
-                                                        {"name": "Value", "id": "_value"}]),
-                          dbc.Pagination(id="pagination", max_value=up(df.shape[0] / page_size),
+                                                        {"name": "Einheit", "id": "unit"},
+                                                        {"name": "Zeitstempel", "id": "_time"},
+                                                        {"name": "Wert", "id": "_value"}]),
+                          dbc.Pagination(id="pagination", max_value=up(tb.shape[0] / page_size),
                                          first_last=True, previous_next=True, fully_expanded=False,
                                          className="justify-content-center mt-2"),
                           ],
@@ -113,7 +117,7 @@ class BatchDash:
             Output("batch_table", "data"),
             Input("checklist", "value"))
         def update_line_chart(values):
-            data = df[df["_field"].isin(values)]
+            data = tb[tb["_field"].isin(values)]
             return data.to_dict('records')
 
         @app.callback(
@@ -121,7 +125,7 @@ class BatchDash:
             Input("checklist", "value")
         )
         def change_pagination(values):
-            return up(df[df["_field"].isin(values)].shape[0] / page_size)
+            return up(tb[tb["_field"].isin(values)].shape[0] / page_size)
 
         @app.callback(
             [Output("collapseTable", "is_open"), Output("collapse_table", "children")],
