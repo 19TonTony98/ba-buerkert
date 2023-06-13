@@ -4,6 +4,7 @@
 {% load static %}
 {% url 'live' as live_url %}
 {% url 'start' as start_url %}
+{% url 'documents' as documents_url %}
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -32,10 +33,13 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link mx-1 px-3 {% if request.path in start_url %} active {% endif %}" href="{% url 'start' %}">Start</a>
+          <a class="nav-link mx-1 px-3 {% if start_url in request.path %} active {% endif %}" href="{% url 'start' %}">Start</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link mx-1 px-3 {% if request.path in live_url %} active {% endif %}" href="{% url 'live' %}">Live</a>
+          <a class="nav-link mx-1 px-3 {% if live_url in request.path %} active {% endif %}" href="{% url 'live' %}">Live</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link mx-1 px-3 {% if documents_url in request.path  %} active {% endif %}" href="{% url 'documents' %}">Dokumente</a>
         </li>
       </ul>
       <form class="d-flex mb-0" role="search" action="{% url 'index' %}" style="">

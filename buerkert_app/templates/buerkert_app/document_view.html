@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% load plotly_dash %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            <h5 class="title">Dokumente</h5>
+        </div>
+        <div class="card-body" id="body">
+            <div class="p-2">
+                <div class="card">
+                    <div class="card-header">
+                        <b>Verfügbare Dokumente:</b>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group">
+                            {% for document in documents %}
+                                <a class="list-group-item list-group-item-action"
+                                    href="{% url 'documents' %}?document={{ document }}">
+                                    {{ document }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+          </div>
+        </div>
+    </div>
+{% endblock %}
