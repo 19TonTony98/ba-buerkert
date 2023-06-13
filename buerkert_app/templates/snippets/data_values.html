@@ -6,7 +6,7 @@
 
 {% for node in values %}
     <tr>
-      <th scope="row">{{ node.sps_port }}</th>
+      <th scope="row" style="width: 3ch; ">{{ node.sps_port }}</th>
       <td>{{ node.display }}</td>
         {% resolve_unit node.unit as result%}
       <td>{{ result.display }}</td>

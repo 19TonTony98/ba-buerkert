@@ -88,14 +88,20 @@ def ios_to_displays(io_list, **kwargs):
     conf_list = get_sps_conf_list()
     results = []
     for ios in io_list:
-        display = {}
         if disp_list := list(filter(lambda conf: conf.get('sps_port') == ios.get("sps_port"), conf_list)):
             display = {**disp_list[0], "value": ios['value']}
-        results.append(display)
+            results.append(display)
     return results
 
 
 def get_sps_conf_list():
+    if os.path.isfile(SPS_CONF):
+        with open(SPS_CONF, "r") as fd:
+            return json.load(fd)
+    return {}
+
+
+def get_possible_sps_conf_list():
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     loop = asyncio.get_event_loop()
@@ -116,8 +122,11 @@ def get_sps_conf_list():
             sps_conf.extend(last_confs)
         else:
             sps_conf.append({"use": False, "sps_port": ident, "display": "", "unit": ""})
-    save_conf_list(sps_conf)
-    return sps_conf
+
+    if values:
+        return sps_conf
+    else:
+        return last_conf
 
 
 def get_batch_ids(max_ids=1):

@@ -10,7 +10,7 @@ from bootstrap_datepicker_plus.widgets import DateTimePickerInput
 from buerkert.settings import DATE_FORMAT
 from buerkert_app.utils.collector_utils import stop_container, is_container_running, create_container, \
     create_config_file, start_container
-from buerkert_app.utils.utils import get_sps_conf_list, save_conf_list, get_batch_ids
+from buerkert_app.utils.utils import save_conf_list, get_batch_ids, get_possible_sps_conf_list
 from res.units import Units
 
 
@@ -35,7 +35,7 @@ class StartView(View):
         except Exception as e:
             messages.error(request, e)
         form = BatchForm(initial={"batch_id": new_id, "start": datetime.datetime.now()})
-        formset = ConfFormSet(initial=get_sps_conf_list())
+        formset = ConfFormSet(initial=get_possible_sps_conf_list())
         context.update({"form": form, "formset": formset, "batch": batch, "running": running,
                         "recent_batches": recent_batches})
         return render(request, "buerkert_app/start_view.html", context)
