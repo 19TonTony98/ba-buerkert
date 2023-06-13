@@ -22,22 +22,11 @@ class BatchView(View):
     start = "00"+datetime.datetime(year=23, month=1, day=1).strftime(DATE_FORMAT)
 
     def get(self, request, batch_id=None):
-        start = re.search("00[^0].+", self.start).group()
         try:
-            with InfluxDBClient(**DATABASES["influx"]) as client:
-                query_api = client.query_api()
-                query = f"""from(bucket: "{DATABASES["influx"]["bucket"]}")
-                              |> range(start: {start})
-                              |> filter(fn: (r) => r._measurement == "{batch_id}")
-                         """
-
-                if (df := query_api.query_data_frame(query)).empty:
-                    raise InfluxDBError(message="No Data found")
+            BatchDash('SimpleExample', request, batch_id)
         except Exception as e:
             messages.error(request, e)
             return render(request, 'base.html')
-
-        BatchDash('SimpleExample', df, "_field", x="_time", y="_value", color='sensor_id')
 
         context = {"batch_id": batch_id}
         return render(request, 'buerkert_app/batch_view.html', context)

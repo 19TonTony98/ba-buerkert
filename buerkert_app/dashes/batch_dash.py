@@ -1,16 +1,34 @@
+from enum import IntEnum
 from math import ceil as up
 
+import pandas as pd
+from django.contrib import messages
 import dash_bootstrap_components as dbc
 import plotly.express as px
 import plotly.graph_objects as go
 from dash import dcc, html, Input, Output, dash_table, State
 from django_plotly_dash import DjangoDash
+from influxdb_client import InfluxDBClient
+from influxdb_client.client.exceptions import InfluxDBError
 
+from buerkert.settings import DATABASES
 from res.units import Units
+
+RESOLUTION_RANGE = ['1s', '10s', '30s', '1m', '10m', '30m', '1h']
 
 
 class BatchDash:
-    def __init__(self, name, df, check_col, x, y, color):
+    def __init__(self, name, request, batch_id):
+        self.request = request
+        self.batch_id = batch_id
+        if not (size := self.get_influx_size()):
+            raise InfluxDBError(message=f"Keine Daten mit der Batch-ID {self.batch_id} gefunden")
+        slider_value = min(((len(RESOLUTION_RANGE) - 1), int(size/7500)))
+        df = self.get_influx_df(RESOLUTION_RANGE[slider_value])
+        check_col = "_field"
+        x = "_time"
+        y = "_value"
+        color = 'sensor_id'
         app = DjangoDash(name, external_stylesheets=[dbc.themes.BOOTSTRAP])  # replaces dash.Dash
         app.css.append_css({"external_url": "/static/buerkert_app/css/main.css"})
         page_size = 100
@@ -23,6 +41,11 @@ class BatchDash:
                 inline=True,
                 labelStyle={"margin": "10px"}
             ),
+            html.Div([
+                html.Div("Auflösung", className="px-3"),
+                dcc.Slider(marks={idx: value for idx, value in enumerate(RESOLUTION_RANGE)},
+                           id='resolution-slider', min=0, max=len(RESOLUTION_RANGE) - 1, step=1, value=slider_value, ),
+            ]),
             dbc.Spinner(dcc.Graph(id="graph"), fullscreen=True, color="success"),
             html.Div([dbc.Button("Zeige Tabelle", id="collapse_table", className="me-md-2", n_clicks=0),
                       dbc.Button("Export Tabelle", id="export_table", className="me-md-2")],
@@ -64,8 +87,10 @@ class BatchDash:
 
         @app.callback(
             Output("graph", "figure"),
-            Input("checklist", "value"))
-        def update_line_chart(values):
+            [Input("checklist", "value"),
+             Input("resolution-slider", "value")])
+        def update_line_chart(values, resolution):
+            df = self.get_influx_df(RESOLUTION_RANGE[resolution])
             fig = go.Figure()
             layout_dict = {}
             for i, value in enumerate(values, 1):
@@ -108,6 +133,30 @@ class BatchDash:
             if n:
                 return not is_open, label
             return is_open, "Zeige Tabelle"
+
+
+    def get_influx_df(self, resolution="1m"):
+        with InfluxDBClient(**DATABASES["influx"]) as client:
+            query_api = client.query_api()
+            query = f"""from(bucket: "{DATABASES["influx"]["bucket"]}")
+                          |> range(start: 0)
+                          |> filter(fn: (r) => r._measurement == "{self.batch_id}")
+                          |> aggregateWindow(every: {resolution}, fn: mean, createEmpty: false)
+                          |> yield(name: "mean")
+                     """
+
+            return query_api.query_data_frame(query)
+
+    def get_influx_size(self):
+        with InfluxDBClient(**DATABASES["influx"]) as client:
+            query_api = client.query_api()
+            query = f"""from(bucket: "{DATABASES["influx"]["bucket"]}") 
+                        |> range(start: 0) 
+                        |> filter(fn: (r) => r._measurement == "{self.batch_id}")
+                        |> count()
+                        """
+            if result := query_api.query(query):
+                return result[0].records[0].values['_value']
 
 
 def units_resolve(units):
