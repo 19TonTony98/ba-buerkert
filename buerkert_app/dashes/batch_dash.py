@@ -31,7 +31,7 @@ class BatchDash:
         slider_value = min(((len(RESOLUTION_RANGE) - 1), int(size/7500)))
         df = self.get_influx_df(RESOLUTION_RANGE[slider_value])
         tb = df.copy()
-        tb["unit"] = tb.apply(lambda row: getattr(Units, row['_field']).value[0], axis=1)
+        tb["unit"] = tb.apply(lambda row: getattr(Units, row['_field']).choice()[1], axis=1)
 
         app = DjangoDash(name, external_stylesheets=[dbc.themes.BOOTSTRAP])  # replaces dash.Dash
         app.css.append_css({"external_url": "/static/buerkert_app/css/main.css"})
