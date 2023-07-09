@@ -1,0 +1,66 @@
+@startgantt
+Title Bachelorarbeit Zeitplan
+
+language de
+'Project starts 2023-05-01
+printscale weekly zoom 3
+
+
+[Orientierungs- und Planungsphase] as [Orient] lasts 2 weeks
+[Orient] is colored in GreenYellow
+
+[Treffen mit Dozent und Betreuer] happens at [Orient]'s start
+[Problem und Lösung definieren] starts at [Orient]'s start and lasts 7 days
+[Methodik und Systeme suchen] starts at [Orient]'s start and lasts 7 days
+[Methodik und Systeme suchen] -> [Problem auf System transferieren]
+[Problem auf System transferieren] lasts 5 days
+[Vorläufige Gliederung planen] ends at [Problem auf System transferieren]'s end
+[Vorläufige Gliederung planen] lasts 2 days
+[Präsentation Konzept] happens at [Vorläufige Gliederung planen]'s end
+
+[Recherche und Programmierung] as [RnP] lasts 5 weeks
+[RnP] is colored in GreenYellow
+[Vorläufige Gliederung planen] -> [RnP]
+[Literatursuche- und analyse] starts at [RnP]'s start
+[Proof of concept] happens 4 weeks after [RnP]'s start 
+[Programm schreiben] starts at [RnP]'s start and lasts 6 weeks 
+[Programm schreiben] is colored in IndianRed
+[Literatursuche- und analyse] ends at [Programm schreiben]'s end
+'[Last end of basicprogramming] happens 4 weeks after [RnP]'s start
+[Programm schreiben] -> [Anwender Testphase]
+[Anwender Testphase] lasts 7 days
+[Recherche und Programmierung] ends at [Anwender Testphase]'s end
+
+[Datenbank aufsetzen] starts at [Programm schreiben]'s start and lasts 1 weeks
+[Framework schreiben] lasts 2 weeks
+[Plots einbinden] lasts 1 weeks
+[Docker aufsetzen] lasts 1 weeks
+
+
+[Datenbank aufsetzen] -> [Framework schreiben]
+[Framework schreiben] -> [Plots einbinden]
+[Plots einbinden] -> [Docker aufsetzen]
+[Docker aufsetzen] -> [Test + Bugfixing]
+[Test + Bugfixing] ends at [Anwender Testphase]'s end
+
+
+[Schreibphase] as [Write] starts at [RnP]'s start
+[Write] is colored in GreenYellow
+[Fortschritt und Methoden dokumentieren] starts at [Programm schreiben]'s start
+[Fortschritt und Methoden dokumentieren] ends at [Programm schreiben]'s end
+[Einleitung vervollständigen] lasts 3 days and starts at [Programm schreiben]'s end
+[Einleitung vervollständigen] -> [Theoretischen Rahmen verfassen/vervollständigen]
+[Theoretischen Rahmen verfassen/vervollständigen] lasts 21 days
+[Theoretischen Rahmen verfassen/vervollständigen] -> [Fazit verfassen]
+[Fazit verfassen] lasts 5 days
+[Write] ends at [Fazit verfassen]'s end
+[Abschluss Theoretischer Teil] happens at [Write]'s end
+
+[Abschluss] starts at [Fazit verfassen]'s end and lasts 11 days
+[Abschluss] is colored in GreenYellow
+[Korrekturlesen (lassen)] starts at [Abschluss]'s start and lasts 7 days
+[Korrekturlesen (lassen)] is colored in LightSkyBlue
+[Drucken] starts after [Korrekturlesen (lassen)]'s end and lasts 2 days
+[Abgabe] happens at [Abschluss]´s end
+' [Vorausichtliche Abgabe] happens 93 days after start
+@endgantt
