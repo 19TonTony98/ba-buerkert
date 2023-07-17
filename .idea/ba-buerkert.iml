@@ -16,7 +16,6 @@
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="jdk" jdkName="Pipenv (ba-buerkert)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="ssh" />
     <orderEntry type="library" name="htmx.org" level="application" />
     <orderEntry type="library" name="jquery" level="application" />
   </component>

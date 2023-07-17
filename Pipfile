@@ -18,6 +18,8 @@ django-htmx = "*"
 docker = "*"
 
 [dev-packages]
+pipenv = "*"
+pip-licenses = "*"
 
 [requires]
 python_version = "3.11"

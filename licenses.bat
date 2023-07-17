@@ -1,0 +1,1 @@
+pipenv run pip-licenses --format=html --from=mixed --with-system --with-authors --with-urls --with-description > buerkert_app/templates/snippets/licenses.html
