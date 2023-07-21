@@ -1,11 +1,11 @@
 import datetime
 
+from bootstrap_datepicker_plus.widgets import DateTimePickerInput
 from django import forms
 from django.contrib import messages
 from django.forms import formset_factory
 from django.shortcuts import render, redirect
 from django.views import View
-from bootstrap_datepicker_plus.widgets import DateTimePickerInput
 
 from buerkert.settings import DATE_FORMAT
 from buerkert_app.utils.collector_utils import stop_container, is_container_running, create_container, \

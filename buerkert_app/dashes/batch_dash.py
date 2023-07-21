@@ -1,8 +1,5 @@
-from enum import IntEnum
 from math import ceil as up
 
-import pandas as pd
-from django.contrib import messages
 import dash_bootstrap_components as dbc
 import plotly.express as px
 import plotly.graph_objects as go
@@ -28,7 +25,7 @@ class BatchDash:
 
         if not (size := self.get_influx_size()):
             raise InfluxDBError(message=f"Keine Daten mit der Batch-ID {self.batch_id} gefunden")
-        slider_value = min(((len(RESOLUTION_RANGE) - 1), int(size/7500)))
+        slider_value = min(((len(RESOLUTION_RANGE) - 1), int(size / 7500)))
         df = self.get_influx_df(RESOLUTION_RANGE[slider_value])
         tb = df.copy()
         tb["unit"] = tb.apply(lambda row: getattr(Units, row['_field']).choice()[1], axis=1)
@@ -137,7 +134,6 @@ class BatchDash:
             if n:
                 return not is_open, label
             return is_open, "Zeige Tabelle"
-
 
     def get_influx_df(self, resolution="1m"):
         with InfluxDBClient(**DATABASES["influx"]) as client:

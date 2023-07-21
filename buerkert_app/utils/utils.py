@@ -171,7 +171,7 @@ def get_possible_sps_conf_list():
 
     :return: A list of possible SPS configurations.
     """
-    #connect to opcua and get data
+    # connect to opcua and get data
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     loop = asyncio.get_event_loop()

@@ -1,11 +1,11 @@
+import warnings
+
 from django.contrib import messages
 from django.shortcuts import render
 from django.views import View
+from influxdb_client.client.warnings import MissingPivotFunction
 
 from buerkert_app.dashes.batch_dash import BatchDash
-
-import warnings
-from influxdb_client.client.warnings import MissingPivotFunction
 
 warnings.simplefilter("ignore", MissingPivotFunction)
 

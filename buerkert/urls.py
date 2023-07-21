@@ -15,9 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.contrib.staticfiles.storage import staticfiles_storage
 from django.urls import path, include
-from django.views.generic import RedirectView
 
 urlpatterns = [
     path("", include("buerkert_app.urls")),
@@ -26,7 +24,5 @@ urlpatterns = [
 
 # Add URL maps to redirect the base URL to the application
 urlpatterns += [
-    path('favicon.ico',
-         RedirectView.as_view(url=staticfiles_storage.url('buerkert_app/img/hswt-logo.ico'), permanent=True)),
     path('django_plotly_dash/', include('django_plotly_dash.urls')),
 ]

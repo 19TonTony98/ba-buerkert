@@ -3,9 +3,8 @@ import datetime
 import json
 import time
 
-import pytz
-
 import docker
+import pytz
 from asyncua import Client
 from influxdb_client import InfluxDBClient
 from influxdb_client.client.write_api import SYNCHRONOUS
