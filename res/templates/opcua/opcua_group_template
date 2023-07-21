@@ -1,6 +1,0 @@
-  [[inputs.opcua.group]]
-    name = "{BATCH_ID}"
-    namespace = "{NSIDX}"
-    identifier_type = "i"
-
-{NODES}

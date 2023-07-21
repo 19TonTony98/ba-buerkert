@@ -1,1 +1,2 @@
+:: Run with used pipenv to write all uses licenses in the licenses.html file and display it in the documents view
 pipenv run pip-licenses --format=html --from=mixed --with-system --with-authors --with-urls --with-description > buerkert_app/templates/snippets/licenses.html

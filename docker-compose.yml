@@ -22,6 +22,8 @@ services:
       - /var/run/:/var/run/
       - shared_res:/home/app/webapp/res/
       - influxdb_collector:/home/app/influxdb_collector/
+    tty: true
+    command: ./manage.py runserver 0.0.0.0:8000
 volumes:
   shared_res:
     driver: local

@@ -1,4 +1,0 @@
-    [[inputs.opcua.group.nodes]]
-      name="{MEASUREMENT}"
-      identifier = "{IDENTIFIER}"
-      default_tags = {{ sensor_id = "{SENSOR_ID}", display = "{DISPLAY_NAME}" }}

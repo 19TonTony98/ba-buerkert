@@ -6,6 +6,7 @@ from django.views import View
 
 
 class DocumentView(View):
+    #config in yaml and cleanup
     def get(self, request):
         document_root = os.path.join("res", "documents")
         if document := request.GET.get("document"):
