@@ -3,18 +3,24 @@ import asyncio
 from django.contrib import messages
 from django import forms
 from django.core.exceptions import ValidationError
-from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
 
 from buerkert_app.utils.collector_utils import is_container_running
-from buerkert_app.utils.utils import get_opcua_data, ident_to_io, ios_to_displays, idents_to_ios
+from buerkert_app.utils.utils import get_opcua_data, ios_to_displays, idents_to_ios, handle_uploaded_file
 
 
 class LiveView(View):
 
     def get(self, request):
+        """
+         Method to render the live view page or return live data as table for htmx request.
+
+        :param request: The HTTP request object.
+        :return: The rendered HTML for the live view page or datatable snippet.
+        """
         if request.htmx:
+            # establish Connection to opcua server, read data and return rendered table
             loop = asyncio.new_event_loop()
             asyncio.set_event_loop(loop)
             loop = asyncio.get_event_loop()
@@ -30,6 +36,7 @@ class LiveView(View):
         batch = None
         running = None
         try:
+            # check if container is running, for title
             batch, running = is_container_running()
         except Exception as e:
             messages.error(request, e)
@@ -38,8 +45,15 @@ class LiveView(View):
         return render(request, "buerkert_app/live_view.html", context)
 
     def post(self, request):
+        """
+         Method to save File and reloads page with new file.
+
+        :param request: The HTTP request object.
+        :return: The rendered HTML for the live view page.
+        """
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
+            # replace file if upload is valid
             handle_uploaded_file(request.FILES["file"])
             messages.success(request, "Datei erfolgreich hochgeladen")
         else:
@@ -58,9 +72,3 @@ class UploadFileForm(forms.Form):
             return data
         else:
             raise ValidationError('Ungültiger Datentyp, Akzeptierte Datentypen: .jpg')
-
-
-def handle_uploaded_file(f):
-    with open("buerkert_app/static/buerkert_app/img/buerkert_funktionsschema.jpg", "wb+") as destination:
-        for chunk in f.chunks():
-            destination.write(chunk)

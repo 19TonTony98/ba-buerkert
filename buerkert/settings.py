@@ -157,3 +157,5 @@ SPS_CONF = "res/last_sps_conf.json"
 COLLECTOR_CONF = "res/collector_conf.json"
 
 DATE_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
+
+F_SCHEMA_PATH = "buerkert_app/static/buerkert_app/img/buerkert_funktionsschema.jpg"
