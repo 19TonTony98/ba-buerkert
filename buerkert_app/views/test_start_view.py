@@ -15,6 +15,7 @@ class StartViewTest(TestCase):
         response = StartView.as_view()(request)
 
         self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'buerkert_app/start_view.html')
 
     def test_start_view_post(self):
         data = {}

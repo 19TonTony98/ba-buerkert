@@ -1,10 +1,34 @@
-from unittest.mock import patch, mock_open
+import asyncio
+from unittest.mock import patch, mock_open, MagicMock
 
 from django.test import TestCase
 
 from buerkert import settings
 from buerkert_app.utils.utils import io_to_ident, get_io_ident, ident_to_io, idents_to_ios, \
-    io_to_display, ios_to_displays
+    io_to_display, ios_to_displays, get_opcua_data, get_possible_sps_conf_list, get_batch_ids, get_last_batch_id
+
+
+class TestGetOpcUaData(TestCase):
+    class TestNode:
+        async def read_browse_name(self):
+            return MagicMock(Name='Test', NamespaceIndex=1)
+
+        async def get_variables(self):
+            return [MagicMock(read_browse_name=self.read_browse_name, read_value=self.read_value)]
+
+        async def read_value(self):
+            return 'TestValue'
+
+    @patch('buerkert_app.utils.utils.Client', autospec=True)
+    def test_get_opcua_data_exception(self, mock_client):
+        mock_client.side_effect = TimeoutError()
+        expected_exception_message = f"TimeoutError: Can´t Connect to OPC-UA Server {settings.OPCUA_URL}"
+
+        loop = asyncio.get_event_loop()
+        results, exceptions = loop.run_until_complete(get_opcua_data())
+
+        self.assertListEqual(results, [])
+        self.assertListEqual(exceptions, [expected_exception_message])
 
 
 class TestGetIoIdent(TestCase):
@@ -107,3 +131,71 @@ class TestIosToDisplays(TestCase):
         mock_get_sps_conf_list.assert_called_once()
 
         self.assertEqual(result, expected_data)
+
+
+class TestGetPossibleSPSConfList(TestCase):
+
+    @patch('buerkert_app.utils.utils.get_opcua_data',
+           return_value=([{'namespace_index': 1, 'identifier': '123'}], None))
+    @patch('buerkert_app.utils.utils.ident_to_io', return_value='123')
+    @patch('json.load')
+    @patch('builtins.open', new_callable=mock_open, read_data='[]')
+    @patch('os.path.isfile', return_value=True)
+    def test_get_possible_sps_conf_list_with_file(self, *_):
+        result = get_possible_sps_conf_list()
+        self.assertEqual(result, [{'use': False, 'sps_port': '123', 'display': '', 'unit': ''}])
+
+    @patch('buerkert_app.utils.utils.get_opcua_data',
+           return_value=([{'namespace_index': 1, 'identifier': '123'}], None))
+    @patch('buerkert_app.utils.utils.ident_to_io', return_value=None)
+    @patch('json.load')
+    @patch('builtins.open', new_callable=mock_open, read_data='[]')
+    @patch('os.path.isfile', return_value=False)
+    def test_get_possible_sps_conf_list_without_file(self, *_):
+        result = get_possible_sps_conf_list()
+        self.assertEqual(result, [])
+
+
+class TestGetBatchIds(TestCase):
+
+    @patch('buerkert_app.utils.utils.InfluxDBClient')
+    def test_get_batch_ids(self, MockInfluxDBClient):
+        # Arrange
+        mock_influx_client = MagicMock()
+        mock_query_api = MagicMock()
+        mock_data_frame = MagicMock()
+
+        mock_influx_client.query_api.return_value = mock_query_api
+        mock_query_api.query_data_frame.return_value = mock_data_frame
+        MockInfluxDBClient.return_value.__enter__.return_value = mock_influx_client
+
+        mock_data_frame.empty = False
+        mock_data_frame.rename.return_value = mock_data_frame
+        mock_data_frame.sort_values.return_value = mock_data_frame
+        mock_data_frame.drop_duplicates.return_value = mock_data_frame  # you need to mock this method as well
+        batch_list_dict = [{'batch_id': 'id1', 'time': '2023-01-01'}]
+        mock_data_frame.get.return_value.to_dict.return_value = batch_list_dict
+
+        # Act
+        result = get_batch_ids()
+
+        # Assert
+        self.assertEqual(result, [{'batch_id': 'id1', 'time': '2023-01-01'}])
+        mock_influx_client.query_api.assert_called_once()
+        mock_query_api.query_data_frame.assert_called_once()
+        mock_data_frame.rename.assert_called_once_with(columns={"_time": "time", '_measurement': "batch_id"})
+        mock_data_frame.sort_values.assert_called_once_with(by=['time'], ascending=False)
+
+
+class TestGetLastBatchID(TestCase):
+
+    @patch('buerkert_app.utils.utils.get_batch_ids')
+    def test_get_last_batch_id(self, mock_get_batch_ids):
+        # Arrange
+        mock_get_batch_ids.return_value = [{'batch_id': '10'}, {'batch_id': '20'}, {'batch_id': '30'}]
+
+        # Act
+        result = get_last_batch_id()
+
+        # Assert
+        self.assertEqual(result, 10)

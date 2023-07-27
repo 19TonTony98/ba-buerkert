@@ -23,6 +23,7 @@ class TestBatchView(TestCase):
         mock_batch_dash.assert_called_once_with('SimpleExample', request, batch_id)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.template_name[0], 'buerkert_app/batch_view.html')
+        self.assertTemplateUsed(response, 'buerkert_app/batch_view.html')
 
     @patch('buerkert_app.views.batch_view.BatchDash')
     def test_get_raises_exception(self, mock_batch_dash):

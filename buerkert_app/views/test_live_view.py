@@ -24,6 +24,7 @@ class TestLiveView(TestCase):
         request.htmx = False
         response = self.view.get(request)
         self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'buerkert_app/live_view.html')
 
     def test_post_valid_form(self):
         file_data = b'This is a test file.'
