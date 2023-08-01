@@ -1,0 +1,15 @@
+{% load django_bootstrap5 %}
+{% load tag_utils %}
+{% for message in opc_messages %}
+    {% bootstrap_alert message alert_type='danger' %}
+{% endfor %}
+
+{% for node in values %}
+    <tr>
+      <th>{{ node.node_name }}</th>
+      <td>{{ node.namespace_index }}</td>
+      <td>{{ node.identifier }}</td>
+      <td>{{ node.variable_name }}</td>
+      <td>{{ node.value }}</td>
+    </tr>
+{% endfor %}

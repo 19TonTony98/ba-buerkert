@@ -139,7 +139,10 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-OPCUA_URL = "opc.tcp://10.154.4.38:4840/freeopcua/server/"
+OPCUA_URL = "opc.tcp://10.154.4.208:4870"
+
+# Only start of node name
+OPC_NODE_NAME = "WinCC "
 
 # Django Background Tasks Configuration
 BACKGROUND_TASK_RUN_ASYNC = True

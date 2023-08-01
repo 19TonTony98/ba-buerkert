@@ -24,20 +24,30 @@ async def get_opcua_data():
     :return: A tuple containing the results and exceptions
     """
     url = settings.OPCUA_URL
+    node_name = settings.OPC_NODE_NAME
     results = []
     excs = []
     try:
         async with Client(url=url) as client:
             loop = asyncio.get_event_loop()
             nodes = await client.get_objects_node().get_children()
-            # first two irrelevant, just generic data
-            for node in nodes[2:]:
+            # get all nodes in the object node, then get node for winCC_runtime
+            for node in nodes:
+                name = await node.read_browse_name()
+                if name.Name.startswith(node_name):
+                    node_cc = node
+                    break
+            # if not found raise error
+            else:
+                raise Exception("No Node for Siemens WinCC Runtime found, please Ask Administrator")
+
+            for node in await node_cc.get_children():
                 # read node_name and namespace from node
                 br_name = await node.read_browse_name()
                 node_name = br_name.Name
                 nsidx = br_name.NamespaceIndex
                 # get var name and value from every var in node and append them
-                for var in await node.get_variables():
+                for var in await node.get_children():
                     identifier = var.nodeid.Identifier
                     name = await var.read_browse_name()
                     value = await var.read_value()
